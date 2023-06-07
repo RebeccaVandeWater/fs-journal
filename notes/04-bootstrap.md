@@ -15,6 +15,9 @@
 5. Add whatever sections, divs, and p tags where needed. These will have "col" classes with the numbers that you would like.
 
 6. Debugging is very useful. Add style:debug to html above the body in order to see where each section is. Don't forget to add the debug class to the body!
+    - Take it off when your project is ready to grade.
+
+7. Have fun coding! Check notes, references as needed.
 
 
 
@@ -33,6 +36,7 @@
 - You cannot put columns in columns, rows in rows, etc.
 
 - You do not need to make the columns add up to 12. Any extra space can be used in different justify-content classes, which can also be used for troubleshooting if your elements aren't moving the way that you want them to.
+    - You can also make the column size smaller to help with centering the content, instead of adding a bunch of padding to center something.
 
 - Use the website for assistance on finding specific text/background/etc. colors. Copy and pasting is encouraged on this, for ease!
 
@@ -54,6 +58,8 @@
 
 - You will only use align-items for flex boxes. Text-center may be preferred depending on the element.
 
+- If you want icons or buttons to sit next to each other, put them in a flex container. **Don't forget about flex containers!**
+
 - _Global code snippets have been added to laptop vscode, so link: will provide useful code snippets. Check the slack page to put it on the desktop!_
 
 
@@ -72,6 +78,14 @@
     - You can add icons into the text section of the buttons by placing them on the inside, like on a p tag. 
     - btn btn- adds styling to it depending on what you want. btn tells it to add button styling, btn- is what specific styling you want.
     - Hover interaction is added automatically. If you want the hover to look specific to what you want, you may need to add !important as explained above.
+
+- Forms: _Still new to us! Use Bootstrap website and copy paste what you want for now._
+    - If you want space between form submission sections, add some margins!
+
+- Hyperlinks: "a" tags will add links to the text you put inside the tag.
+
+- Order: **order-NUMBER**
+    - Change the number to be the order which you want each element to be in within the parent element. This will make it so that they are in the order you desire, rather than in the order that you wrote the code in html.
 
 
 ##SECTION - Syntax
