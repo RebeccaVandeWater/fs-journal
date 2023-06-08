@@ -1,5 +1,9 @@
 # Bootstrap
 
+#TODO - Things to add, change, do.
+
+- _Global code snippets have been added to laptop vscode, so link: will provide useful code snippets. Check the slack page to put it on the desktop!_
+
 ##SECTION - Getting Started
 
 1. Include a bootstrap link reference in html head
@@ -31,7 +35,7 @@
 
 - BS makes the website styling much easier as a lot of it is automated for sizing and flexing. It's very customizable as a result.
 
-- You can add break points which automatically change based on the screen size arguments that you provide.
+- You can add break points which automatically change based on the screen size arguments that you provide. It will apply on the given class size and UP.
 
 - You cannot put columns in columns, rows in rows, etc.
 
@@ -73,10 +77,28 @@
 - To create a glassy, opaque color, use css.glass (Glassmorphism).
     - This will be used to create a CSS class selector.
 
+- To make sure a text box stays a good height no matter the amount of text given, give it a min-height instead of a set height. This will allow the box to stay at a good size if the text is small, but then grow if there is more text.
 
+#NOTE - Media Queries
 
+- If you need your webpage to do something more specific than just changing column sizes, create a media query (media rules). We need to also provide a specific viewport for these rules. Good practice is copying the BS sizes for their breakpoints, as it will make the changes consistent throughout all devices and codes. 
 
-- _Global code snippets have been added to laptop vscode, so link: will provide useful code snippets. Check the slack page to put it on the desktop!_
+- Media rules should be written on the bottom of the CSS doc. 
+
+- EXAMPLE:
+    @media (max-width: 768px #NOTE - max-width is preferred, as if you set it to just width then the rule will only work when the width is EXACTLY the px count){
+        #NOTE - Any rules we add in the media rule, will occur when the screen is below this given size. Media rules are industry standards.
+        #NOTE - In this example, we're changing borders that were originally on the left and right of an element to the top and bottom according to this rule.
+        border-left: none;
+        border-right: none;
+        border-top: 3px solid black;
+        border-bottom: 3px solid black;
+    }
+
+- If you want two different rules on a media query the syntax would be:
+    - @media ((min-width: 500px) and (max-width: 768px))
+    - The two rules are nested in the same parentheses, with each rule having their own parentheses.
+    - You can use this syntax with OR as well.
 
 
 
