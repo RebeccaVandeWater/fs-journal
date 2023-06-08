@@ -79,6 +79,7 @@
 
 - To make sure a text box stays a good height no matter the amount of text given, give it a min-height instead of a set height. This will allow the box to stay at a good size if the text is small, but then grow if there is more text.
 
+
 #NOTE - Media Queries
 
 - If you need your webpage to do something more specific than just changing column sizes, create a media query (media rules). We need to also provide a specific viewport for these rules. Good practice is copying the BS sizes for their breakpoints, as it will make the changes consistent throughout all devices and codes. 
@@ -149,6 +150,7 @@
 > .col12 (will automatically make a div with the given property that follows the .)
 > rounded (will round edges of objects, won't make them circular though! If it isn't as round as you'd like, make your own CSS class.)
 > .col6*2 (will automatically make the div with class as above, but will make as many as you are multiplying by.)
+> order-NUMBER (will be in the given order from left to right ~ order-1 would be the first thing on the page read from left to right.)
 
 > **container-fluid (will remove margins from the container so that it stretches edge-to-edge.)**
 

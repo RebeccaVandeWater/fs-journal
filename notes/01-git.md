@@ -12,6 +12,14 @@ Testing Git Push
 
 - During checkpoints **get the requirements done first**. Complete small passes to get the requirements done, then go through as many more times as needed to make it look nice and polished. Get the skeleton done first, always!!
 
+- Wednesday is career day, lunch will be from 12:00 - 1:00 with a career lecture after lunch.
+- Thursday is partner programming day, expect that the daily project will be with a partner.
+
+#SECTION - Handy Tips
+
+- WINDOWS+V pulls up the clipboard so that you can reuse the things that you have copy-pasted.
+- WINDOWS+. pulls up emojies for html text.
+
 
 
 #TODO - Important Dates:
