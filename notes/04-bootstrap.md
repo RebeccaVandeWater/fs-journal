@@ -113,3 +113,17 @@
 > .col6*2 (will automatically make the div with class as above, but will make as many as you are multiplying by.)
 
 > **container-fluid (will remove margins from the container so that it stretches edge-to-edge.)**
+
+#SECTION - Figma
+
+- Use Colormind to choose your color palatte. Then, copy the hex values and put them in a square on the side. This is a an easy way to quickly use your color palatte without flipping back and forth between pages.
+
+- You can give colors nicknames and quickly grab them in the hex code selector box instead of retyping the hex value.
+
+- To put a new font into your webpage, go to Google Fonts. 
+    - Copy the link tag and put it in the head.
+    - Add the class of the font to the specific area that you want.
+
+- You can use the Unsplash plug-in inside figma to pick your picture, rather than searching on the Unsplash website.
+
+- Don't forget about hero sections! They will be underneath the header, before contact information and most links.
