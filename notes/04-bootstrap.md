@@ -114,9 +114,10 @@
 
 > **container-fluid (will remove margins from the container so that it stretches edge-to-edge.)**
 
-#SECTION - Figma
+##SECTION - Figma
 
-- Use Colormind to choose your color palatte. Then, copy the hex values and put them in a square on the side. This is a an easy way to quickly use your color palatte without flipping back and forth between pages.
+- Use Colormind to choose your color palette. Then, copy the hex values and put them in a square on the side. This is a an easy way to quickly use your color palette without flipping back and forth between pages.
+    - Colormind also has advice on how to use colors (light, dark, accent, etc.). It's a good reference!
 
 - You can give colors nicknames and quickly grab them in the hex code selector box instead of retyping the hex value.
 
@@ -126,4 +127,15 @@
 
 - You can use the Unsplash plug-in inside figma to pick your picture, rather than searching on the Unsplash website.
 
-- Don't forget about hero sections! They will be underneath the header, before contact information and most links.
+- Don't forget about hero sections! They will be underneath the header, before contact information and most links. It's the first thing a user will have their eye drawn to, and it will have the call to action on it.
+
+- Images will often not fit the same way in actual code as it does in Figma. Make sure to use CSS classes to help with this.
+
+- Work in "passes". Get the skeleton done first, then work on fonts, colors, pictures, etc.
+
+###NOTE - Figma Syntax
+
+- Use CTRL+G to group items together. 
+
+- To copy quickly use ALT and drag & drop.
+
