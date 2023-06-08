@@ -60,6 +60,22 @@
 
 - If you want icons or buttons to sit next to each other, put them in a flex container. **Don't forget about flex containers!**
 
+- **To include images that are custom, give them their own CSS class instead of putting them in the html. You can also create them as backgrounds in this way with background-image. This will help it take up the entirety of the background that you want it to, to put text on top of.**
+    -EXAMPLE:
+    .hero-img{
+        background-image: url(LINK);
+        height: 30vh;
+        background-size: fill;
+        background-position: 10% 37%;
+        background-repeat: norepeat;
+    }
+
+- To create a glassy, opaque color, use css.glass (Glassmorphism).
+    - This will be used to create a CSS class selector.
+
+
+
+
 - _Global code snippets have been added to laptop vscode, so link: will provide useful code snippets. Check the slack page to put it on the desktop!_
 
 
@@ -123,7 +139,7 @@
 
 - To put a new font into your webpage, go to Google Fonts. 
     - Copy the link tag and put it in the head.
-    - Add the class of the font to the specific area that you want.
+    - Add the class of the font to the specific area that you want, as a css class that you make (such as .header-font, or you can use it as an element selector).
 
 - You can use the Unsplash plug-in inside figma to pick your picture, rather than searching on the Unsplash website.
 
@@ -132,6 +148,8 @@
 - Images will often not fit the same way in actual code as it does in Figma. Make sure to use CSS classes to help with this.
 
 - Work in "passes". Get the skeleton done first, then work on fonts, colors, pictures, etc.
+
+- Use meettheipsums to generate differently-themed ipsums. Copy and paste the text into the area that you would like. Make sure there aren't swear words in the text, and pick ones that are generally professional. All projects that we make will be in our portfolio.
 
 ###NOTE - Figma Syntax
 
