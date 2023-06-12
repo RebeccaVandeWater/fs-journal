@@ -1,11 +1,11 @@
 # Intro to JavaScript
 01. Which keywords are used to declare a variable in JavaScript?
 
-    > | ANSWER HERE |
+    > We can use the keywords 'var', 'let', and 'const'. Let is preferred as it has fewer issues with scoping and can be redefined later. Const has the same kind of scoping as let, but cannot be redefined unless it is written like an array. Var is an older version that could have been functionally or globally scoped, and it was easy to get errors as a result. 
 
 02. What is the definition of a function?
 
-    > | ANSWER HERE |
+    > A function is a sub-program. It gives your code 'function'-ality. It has to be invoked with return in order for it to work, however it can be "anonymous" and not named.
 
 03. What are the `SOLID` principles?
 
