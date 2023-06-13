@@ -42,7 +42,7 @@
 
 07. What is the main difference between `parameters` and `arguments`?
 
-    > | ANSWER HERE |
+    > Parameters are placeholders for arguments inside a function. They give room for the values (arguments) that you are going to pass through your function. 
 
 08. Instead of writing everything to the console, what is a better way to debug your code?
 

@@ -134,6 +134,8 @@
         }
     }
 
+- If you set an objects property equal to another variable's property, and then change what that property is equal to, you will also change the objects property. This is because it is a reference object, not a primitive object. It does not make a copy of the object, it makes a REFERENCE to the one already in memory.
+
 #SECTION - Arrays
 - When dot notating into an array, don't forget to write where you want to be in an index with [indexNUMBER]
 
@@ -147,11 +149,57 @@
 ]
  - **USE SQUARE BRACKETS**
 
+ #REVIEW - Check Week2 > Day2 for array method practice
+
  - If you want to use mixed data types inside your array, just use an object instead. Arrays are better used when they have the same data type (strings, numbers, objects, etc.)
     - for loops would get really complicated if you use different data types. Your code should be predictable.
 
+- The length of an array will always be one more than the index.
+
 #NOTE - Array Methods
 
+- **.find** will find an object in an array for us
+    - EXAMPLE: let foundCat = cats.find (cat => cat.name == 'Gopher')
+    - Once find meets the condition you set, it will stop running. It will only find the first thing that meets this condition. So, only try to find a unique property (such as a name or id) on the array because otherwise you may not get all of the information that you want.
+
+- **.filter** 
+    - Creates a brand new array where the filtered conditional is true
+    - EXAMPLE: let filteredCats = cats.filter(cat => cat.hasTail == true)
+        - The new array is filteredCats, and it only has cats that have hasTail = true in their array.
+    - It does not delete the previous array, it just copies it with the array items that have the conditional true.
+
+- **.sort** 
+    - EXAMPLE: let sortedCats = cats.sort((cat1, cat2) => cat1.age - cat2.age)
+    - Compares each thing in the array to other things in the array. If something previously met the conditional of the sort, it'll compare it to the new items as well.
+    - You can use - to have the sort in ascending order, or + to have it in descending order.
+    - Less useful than filter and find
+
+- **.map** 
+	- Changes all the properties on the arrays that meet the condition. 
+	- Does not change the original array.
+		- EXAMPLE: let numbers = [1, 2, 3, 4]
+							 let changedNumbers = numbers.map(number => number *2)
+							 console.log('changed', changedNumbers);
+
+#SECTION - For Loops
+
+- for (let i = 0; i < 1; i += 3)
+        i is the initializer
+        i < 1 runs the code as long as it is true (the conditional)
+        i += 3 is the speed in which we are iterating through the array (incrementor)
+
+- an ALIAS references each thing in the array, ex. let cat = cats[i]
+- _Be careful_ when using <= for your condition, you should be careful because it will continue to run through the length of the array, as the length may be 3 while the index is 2. So, the length will try to access something at 3 that doesn't exist.
+- The length of an array will always be one more than the index.
+
+- Use && to include two conditionals in the loop.
+
+#NOTE - forEach
+
+- Syntax:
+    ARRAY.forEach(cat => console.log('😻', cat))
+    1. Alias out what you want from the function (cat => )
+    2. Give it something to do
 
 
 #SECTION - Functions
