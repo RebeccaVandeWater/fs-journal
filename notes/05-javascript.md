@@ -141,6 +141,9 @@
 
 - These are ways of showing collections of data. 
 
+- To call a function every time the page loads, call the function at the bottom of your js page (or after the function) 
+    - EXAMPLE: randomNumber()
+
 - let breakfastItems = [
     'apple',
     'bagel',
@@ -148,6 +151,31 @@
     'rice krispies'
 ]
  - **USE SQUARE BRACKETS**
+
+ #NOTE - Draw something from an array to the screen
+ 1. Give the place where you want it to be in the html an id
+ 2. Create a function for the element to draw
+    - let drawElement = document.getElementById('elementId') > will be necessary for this to work
+    - drawElement.innerText = arrayString (like an emoji or picture, variable is in forEach loop below)
+ 3. Create a forEach loop with an empty string outside of it that the properties can save to. The string should be inside the draw function that the forEach loop is inside.
+    - let arrayString = ''
+    - array.forEach(array => {
+      arrayString += arrayEmoji
+      })
+
+ #NOTE - Random Number Generator
+
+- To make a number generator: 
+    - in a function, write something like: 
+    EXAMPLE: let randomNumber = Math.random() 
+             console.log('random', randomNumber);
+    - To make the number a whole number, write it like: 
+    EXAMPLE: let randomNumber **Math.floor(Math.random() * NUMBER OR ARRAY.LENGTH)**
+             console.log('random', randomNumber);
+    - Math.floor rounds down, Math.ceiling rounds up
+    - You can also make the randomizer on an index of an array by using randomIndex = array[randomNumber]
+    - You can target a random item in an array and change one of its properties with:
+    EXAMPLE: randomIndex.property = true
 
  #REVIEW - Check Week2 > Day2 for array method practice
 
@@ -161,6 +189,7 @@
 - **.find** will find an object in an array for us
     - EXAMPLE: let foundCat = cats.find (cat => cat.name == 'Gopher')
     - Once find meets the condition you set, it will stop running. It will only find the first thing that meets this condition. So, only try to find a unique property (such as a name or id) on the array because otherwise you may not get all of the information that you want.
+    - If you do not give it a property to find, it will read it as a conditional and find something that is true on that property. EXAMPLE: cats.find (cat => cat.hasTail) is read as a conditional, and will return the first item where hasTail = true. 
 
 - **.filter** 
     - Creates a brand new array where the filtered conditional is true
