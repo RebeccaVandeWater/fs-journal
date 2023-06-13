@@ -163,6 +163,24 @@
       arrayString += arrayEmoji
       })
 
+- When refactoring, you can pass an array into a draw function in order to streamline your code
+  - You need to pass throught the original array or the filtered/mapped/found arrays
+
+#NOTE - Buttons that call properties on an array
+1. Put the function in an onclick="" command in the button in html EXAMPLE: <button onclick="drawMammals">
+2. A filter command may typically be best for this kind of search:
+   EXAMPLE: function drawMammals(){
+    let mammals = animals.filter(animal => animal.mammal)
+   }
+3. Make a forEach loop inside the function to draw the items in the array that have the property we want.
+   EXAMPLE: function drawMammals(){
+    let mammals = animals.filter(animal => animal.mammal)
+
+    mammals.forEach(animal => animalString += animal.emoji)
+
+    _make a draw function as described above_
+   }
+
  #NOTE - Random Number Generator
 
 - To make a number generator: 
@@ -266,6 +284,8 @@
 - This parameter can be provided in the html
     onclick = selectnumber(1)
 
+- Only provide primitive objects in the parameter as an argument, not objects or arrays (reference items)
+
 #NOTE - Running Functions
 
 - **onclick** in html you will write the run argument with the function's name inside it.
@@ -277,7 +297,6 @@
     - let givenElement = document.getElementById('idInHtml')
     - you can change the innertext (something that is typed inside the element) by using .innertext on the thing that you want to change, and making it = to a new value (such as a flexible variable that changes with user input)
         - givenElement.innerText = userInput
-
 
 
 #SECTION - Facts
