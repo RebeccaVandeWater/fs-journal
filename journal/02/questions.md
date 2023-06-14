@@ -17,7 +17,7 @@
     let fruit = ['apple', 'banana', 'pineapple', 'orange', 'strawberry']
     ```
 
-    > | ANSWER HERE |
+    > fruit.splice(2, 1)
 
 05. Given these two objects: How could you add each to the others friends arrays?
 
@@ -38,7 +38,14 @@
 
 06. Give an example of a JavaScript `Conditional`:
 
-    > | ANSWER HERE |
+    > let x = 9
+      let y= 20
+      if (x > y){
+        console.log(x);
+      }
+      else{
+        console.log(y);
+      }
 
 07. What is the main difference between `parameters` and `arguments`?
 
@@ -46,12 +53,15 @@
 
 08. Instead of writing everything to the console, what is a better way to debug your code?
 
-    > | ANSWER HERE |
+    > You can test an debug your code in the Dev Tools in your browser. You can test color, alignment, or use the tools to find specific areas in your code that are throwing errors. They will also highlight the sections that aren't working and give a brief error message that you can use to debug your code.
 
 09. What is the difference between a `primitive` value and a `reference` value?
 
-    > | ANSWER HERE |
+    > A primitive value is a value like a number, string, or boolean. A reference value is anything that isn't a primitive value, like an object or array. Reference values contain primitive values.
 
 10. Demonstrate a loop that prints the numbers between -100 and 100?
 
-    > | ANSWER HERE |
+    > for (let i = -100; i <= 100; i++) 
+      {
+        console.log(i)
+      }

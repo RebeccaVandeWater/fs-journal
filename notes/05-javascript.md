@@ -1,5 +1,5 @@
 # JavaScript
-
+#REVIEW - Complete witwics-1 (aready cloned down) and witwics-2 (from github, change the 1 to 2 in the url in github ot get to witwics-2) for more javascript practice.
 
 #SECTION - Getting Started
 1. Set up your project as normal with:
