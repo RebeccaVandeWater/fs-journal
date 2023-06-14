@@ -19,7 +19,7 @@
 - to use emojies, WINDOWS+.
 
 #SECTION - Syntax
-- 
+- NOTE: ul stands for unordered list, li stands for list item
 
 #SECTION - Properties, Elements, etc.
 

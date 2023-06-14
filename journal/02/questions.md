@@ -34,7 +34,8 @@
     }
     ```
 
-    > | ANSWER HERE |
+    > you.friends.splice(0, 0, them) _OR_ you.friends.push(them)
+
 
 06. Give an example of a JavaScript `Conditional`:
 

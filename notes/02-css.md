@@ -20,3 +20,8 @@
 
 - Don't always use BS to help you move elements around. It may be more efficient to just write your own CSS class.
 
+#NOTE: resizing images in CSS
+.menu-img {
+    height: 30vh;
+    object-fit: cover;
+}

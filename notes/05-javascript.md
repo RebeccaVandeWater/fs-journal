@@ -228,6 +228,120 @@
 							 let changedNumbers = numbers.map(number => number *2)
 							 console.log('changed', changedNumbers);
 
+#REVIEW - Week2 > Day3 has the full documentation on cart checkouts/drawing HTML
+
+#NOTE - Adding totals on objects in arrays from button clicks
+
+> function addToCart() {
+    // NOTE: ✅ get a console log when this button is clicked (easy start to make sure this is hooked up)
+    console.log('Button has been clicked')
+
+    // NOTE: ✅ get the chicken parm object out of my array
+    // This would the appropriate way to use the .find method to pull chicken parm specifically out of the array
+    // NOTE: "menuItem" is a new variable made by the .find method
+    // In order to save the information that is found in order to use it, assign it to a variable.
+
+    let chickenParm = menu.find(menuItem => menuItem.name == 'chicken parm')
+
+    // NOTE: ✅ make the quantity on that object go up by 1
+    // Don't forget to change the actual quantity with += NUM or ++, otherwise it won't save the new quantity, js will only complete the operation listed (i.e., chickenParm.quantity + 1 will only add 1, but wont save it. It only completed the operation.)
+
+    chickenParm.quantity++
+
+    console.log(chickenParm)
+
+   }
+
+#NOTE : Refactoring functions
+> function addItemToCart(itemName) {
+    // NOTE: The parameter is a banana word, although it should still be clear as to what you are passing through.
+    // You can pass through a string in html that is in an object js
+    // The section that is being named as a variable from whatever you are finding in the object should be pulling the parameter that you passed through. So, if you are checking menuItem.name in the menu object, then itemName is the name that you passed through in html and is what you should write after the ==.
+
+    let dish = menu.find(menuItem => menuItem.name == itemName)
+
+    dish.quantity++
+
+    console.log(dish)
+
+  }
+
+#NOTE: Drawing items to a separate element using a function
+> function drawCart() {
+
+    // NOTE: Again, we are making a variable so that we can save a change that we make to an element, variable, etc. in a function. It also needs to be outside of the for loop so that it doesn't forget the new variable each time it runs.
+    let stringOfMenuItemHTML = ' '
+
+    // NOTE: forEach is helpful here because it makes EACH item in the array do the thing that is in the loop
+    // The console log still reads each object like it is supposed to, and will recognize changes that you make to the items (like with changing the quantity)
+    menu.forEach(menuItem => {
+
+        if (menuItem.quantity > 0) {
+            // NOTE: You don't have to just add numbers, you can also add strings.
+            // NOTE: To add new HTML to an Element you can use `` so that it reads it as a string, and then use string interpolation to insert a specific item somewhere from an object or array. Make sure that you use `` (back-tics) so that you can do multi-line HTML and you can string interpolate wherever needed (because it needs back-tics to work!)
+
+            //NOTE: .toFixed ensures that there are two places after a decimal. Since price is a number, this method number works
+            stringOfMenuItemHTML += `
+            <li>
+                <div class="d-flex fs-3 justify-content-between">
+                  <span> 
+                  ${menuItem.name} 
+                  x ${menuItem.quantity} 
+                  </span>
+                  <span>
+                    $${menuItem.price.toFixed(2)}
+                  </span>
+                </div>
+
+              </li>
+            `
+
+            console.log(menuItem)
+
+        }
+    })
+
+    const cartElement = document.getElementById('cart')
+
+    cartElement.innerHTML = stringOfMenuItemHTML
+
+    drawTotal()
+
+}
+
+#NOTE: To draw a dynamic total to the screen
+> function drawTotal() {
+    let cartTotalElement = document.getElementById('cart total')
+
+    let cartSum = 0
+
+    menu.forEach(menuItem => {
+        cartSum += menuItem.price * menuItem.quantity
+    })
+
+    // NOTE: string method to change something that isn't a string, into a string.
+    cartTotalElement.innerText = cartSum.toFixed(2).toString()
+
+}
+
+#NOTE: Making a button actually clear a quantity when pressed
+> function checkOut() {
+    // NOTE: A window.confirm will return "True" if a user pressed OK on the prompt and "False" if the user pressed Cancel.
+    const wantsToCheckOut = window.confirm("Are you sure that you want to check out?")
+
+    // NOTE: This if statement cancels the check out button and does not delete any information in the cart, like if someone forgot something
+    if (!wantsToCheckOut) {
+        return
+    }
+
+    menu.forEach(menuItem => menuItem.quantity = 0)
+
+    console.log(wantsToCheckOut)
+
+    drawCart()
+}
+
+
 #SECTION - For Loops
 
 - for (let i = 0; i < 1; i += 3)
