@@ -309,7 +309,7 @@
 
 }
 
-#NOTE: To draw a dynamic total to the screen
+#NOTE: To draw a calculated total to the screen
 > function drawTotal() {
     let cartTotalElement = document.getElementById('cart total')
 
