@@ -9,7 +9,7 @@
 
 03. What is Encapsulation?
   
-  > | ANSWER HERE |
+  > Encapsulation is the storing and separation of data and functions from other files. This helps when you change values that functions might be dependent on. Encapsulation allows you to change the values without breaking your code. 
 
 04. What are some of the benefits of the `Proxy` object that we are using in our structure for applications?
   
@@ -25,16 +25,16 @@
 
 07. What is the purpose of the `MVC` pattern?
   
-  > | ANSWER HERE |
+  > The MVC pattern helps add organization in your application. It keeps the objects separated, but still accessible by, the functions which control the user's experience.
 
 08. What is the job of the `Controller` in the `MVC` Pattern?
   
-  > | ANSWER HERE |
+  > The controller handles user input and changes the user's view depending on their interaction in the Model.
 
 09. What is the job of the `Service` in `MVC`?
   
-  > | ANSWER HERE |
+  > The service operates and changes data out on our models that are stored in the app state. This is the only thing that can change the app state. 
 
 10. What is the job of the `Model` in `MVC`?
   
-  > | ANSWER HERE |
+  > **App State**
