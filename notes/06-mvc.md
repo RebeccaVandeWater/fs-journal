@@ -9,7 +9,7 @@
 
 #SECTION - To begin building out a webpage in MVC **BUILD SMALL, TEST SMALL** _Test items line by line to ensure something works and that you understand WHY_
 1. Go to controllers folder
-2. Make a new file, name clearly about what it will be controlling (i.e., PlayersController) (These words will be pascal-cased to show what is a class)
+2. Make a new file, name clearly about what it will be controlling (i.e., PlayersController) (These words will be pascal-cased to show that is a class)
 3. To make sure that the controller is able to be used in other parts of the code (FIRST LINE OF CODE IN FILE):
     - export class PlayersController{
         constructor(){
@@ -135,6 +135,10 @@
 10. Console log it to make sure it is passed appropriately
 11. Make a find function that is set to an appropriate variable so that you are changing the correct object's piece.
 12. Make another HTML template that is able to change according to the new object's piece. At this point, you will move over to the controller, and you will no longer use the service. Remember that the controller changes the view, the service changes the values that the controller draws. They have different jobs!
+
+#SECTION: To add a form that input fields can add objects with
+1. In HTML, add a form that users can input text into (go to pingPong in CodeWorks GitHub to see the specific form syntax)
+2. 
 
 #SECTION - Facts
 
