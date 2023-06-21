@@ -1,11 +1,16 @@
 # MVC - Model View Controller
 
+#STUB - Shortcuts
+- CTRL+p to use jump between files in the file explorer.
+
+
 #SECTION - How to make an MVC file
 1. In Powershell:  bcw create > Enter
 2. Choose MVC for the project template
 3. Use the built-in VSCode init repo instead of in Powershell, select 'no' for init repo
 4. cd into new folder
 5. ls to see what's in the new folder if you want.
+
 
 #SECTION - To begin building out a webpage in MVC **BUILD SMALL, TEST SMALL** _Test items line by line to ensure something works and that you understand WHY_
 1. Go to controllers folder
@@ -19,6 +24,7 @@
     - we are EXPORTING a CLASS that we are building out. The CLASS is the CONTROLLER that is doing something. Make sure that it is properly connected with a console.log inside a CONSTRUCTOR which fires off as soon as the page loads. This should be the first step every time you build a website until you are very comfortable with MVC.
 4. Go back to the router and make sure that you are calling controller: PlayersController, in an object in the router to ensure that it is connected.
 
+
 #SECTION - To build out something a user can manipulate (ex: clicking a button)
 1. In previous code: 
     - export class PlayersController{
@@ -31,7 +37,7 @@
         sayHello(){
             <!-- NOTE the method is not called with the word method or function, just with its name in a class. The file knows that its a class because of the parentheses -->
             console.log('This button works')
-            console.log('Good job testing small pieces of your code!')
+            console.log('Good job testing small properties of your code!')
         }
     }
 2. In order to call this in the console, remember that it is nested deeply. Call with app.PlayersController.sayHello()
@@ -40,6 +46,23 @@
 5. Hook it up with an onclick="app.PlayersController.sayHello()" 
 <!-- NOTE: js is case-sensitive, make sure you are calling the controller and function exactly correctly. -->
 <!-- NOTE: like previously, remember that the method is nested deeply and you need to all it from its full origin. -->
+
+
+#SECTION - App State
+- The place where we store all the data in MVC, like variables and arrays.
+
+- To recognize whenever something changes in the app state, we can register a listener that watches for specific changes in the app sate. 
+
+- In the constructor of the controller that you want changed, include:
+    AppState.on('coins', _drawCoins)
+    in the string of the first value is what we are watching, the second value is what you want to happen.
+    in this case, whenever coins changes, it will draw coins and update the page.
+
+    This makes it so that you don't need to have an increase and decrease function for something in the appstate. It also makes it so that you don't need a million draw functions on something.
+
+    You can also trigger the appstate in a Service when you put the listener in the service with emit
+        AppState.emit('myGachamons') => in a function that rolls different gachamons (toys) when a button is clicked
+
 
 #SECTION - Building out a collection of data (these are called classes, not objects, but they serve the same purpose.)
 1. Go to the Models js app
@@ -72,6 +95,7 @@
 
 7. To create a new object (i.e. player)
     - new Player('Jeremy')
+
 
 #SECTION - Drawing an object to the screen (this is the job of the controller!)
 1. Draw a function outside of the controller method, so that it is a private method that is inaccessible to the user but can still be called by the controller. This is the encapsulation that MVC is important for.
@@ -109,11 +133,13 @@
     players.forEach(player => template += player.PlayerCardTemplate)
 17. In the function, you can write setHTML('players', template)
 
+
 #SECTION: To write and connect CSS
 
 1. Create a class selector like normal, with the style you want.
 2. Instead of using the class selector in the html like we normally would, go to the model you want to style instead.
 3. Add the css class to the html class in your template.
+
 
 #SECTION: To change values in js and on objects
 1. Go to the services folder.
@@ -136,9 +162,62 @@
 11. Make a find function that is set to an appropriate variable so that you are changing the correct object's piece.
 12. Make another HTML template that is able to change according to the new object's piece. At this point, you will move over to the controller, and you will no longer use the service. Remember that the controller changes the view, the service changes the values that the controller draws. They have different jobs!
 
+
 #SECTION: To add a form that input fields can add objects with
 1. In HTML, add a form that users can input text into (go to pingPong in CodeWorks GitHub to see the specific form syntax)
-2. 
+
+
+#SECTION - Adding nagivation & pages to your project
+- The router will call controllers AND views by injecting paths and views depending on those paths. In the "views" folder, you will be able to create a new view that has set HTML that will inject in the new view when the navigation is clicked and passed through the router.
+    - While you can create a string of HMTL in your router, this can make it needlessly long. The "View" page abstracts out that job from the router to keep your code clean.
+
+- You can put a navlink in the header of your HTML, which will add a hash reference to the end of your localhost:8080 page, which will put in the path that your router will be looking for.
+
+- 
+
+
+
+#SECTION - Local Storage
+- When passing a parameter into the constructor of a model, be mindful of passing in one set of data (object) instead of properties separated by commas. This will allow you to pull informatin from local storage easily.
+
+- This has been written in MVC for us in Store.js. If we call (NOT CHANGE) this template, we can save and load something in our local storage
+
+- We can put the save/load functions in the Service with a private service
+    function _saveMyGachamons(){
+        saveState('mygachamons', AppState.myGachamons)
+    }
+
+    - NEXT call the function after something might be pushed into an array that you want to save, in that function in export.
+
+    - THEN in the appState, you will want to load values so that the things that you want to save are called as soon as the page loads.
+        myGachamons = loadState('myGachamons', [Gachamon])
+        This uses the key of myGachamons, and then tells you what kind of data type this is (an object in an array)
+
+    - LAST load the appState data in the controller so that when you refresh, it already appears.
+
+
+#SECTION - MVC Functions
+
+- **Import/Export** helps connect files together while also preventing the user from getting into the files of an app and messing around with them. You cannot export something without importing it somewhere else. **Encapsulation**
+    - To use export: export const VARIABLE1 = 'STRING'
+    - To use import: let VARIABLE2 = VARIABLE1
+    - Intellicense will know where the variable is coming from and what it is called. It will auto complete for you and if you hover over it, you will be able to see where it's coming from.
+        - Avoid writing it with file pathing (like using ls in the console), setting and pulling variables is less easy to screw up.
+    - You can also export functions: 
+        - export function sayHello(){
+          console.log('hello world')
+          }
+        - to import: let helloFunction = sayHello()
+
+- **ObservableAppState** is where most of our global variables will be. It is where our data should be stored. This is also more encapsulation that helps our app work without user interferance. 
+
+
+#SECTION - Classes
+
+- Big, fancy objects with great intellicense. You can store variables and functions in a class and then export them out to another file.
+
+- Classes allow for encapsulation via bundelling a lot of like code together, making it easier to use.
+
 
 #SECTION - Facts
 
@@ -166,24 +245,18 @@
 
 - import (Pop) is the built in sweet alert
 
-#SECTION - MVC Functions
+- You only use new to create a new class object
 
-- **Import/Export** helps connect files together while also preventing the user from getting into the files of an app and messing around with them. You cannot export something without importing it somewhere else. **Encapsulation**
-    - To use export: export const VARIABLE1 = 'STRING'
-    - To use import: let VARIABLE2 = VARIABLE1
-    - Intellicense will know where the variable is coming from and what it is called. It will auto complete for you and if you hover over it, you will be able to see where it's coming from.
-        - Avoid writing it with file pathing (like using ls in the console), setting and pulling variables is less easy to screw up.
-    - You can also export functions: 
-        - export function sayHello(){
-          console.log('hello world')
-          }
-        - to import: let helloFunction = sayHello()
+- Getters don't need to be invoked because they automatically return something ( make sure you write RETURN in them!)
 
-- **ObservableAppState** is where most of our global variables will be. It is where our data should be stored. This is also more encapsulation that helps our app work without user interferance. 
+<!-- NOTE: --> Generating ID's
+- There is a utility function for generating id's that you can bring in on your model.
+    this.id = generateId()
 
-#SECTION - Classes
+    That way, when you are using a find function you can grab something by its unique identifier so that you can find specific items in your AppState array.
 
-- Big, fancy objects with great intellicense. You can store variables and functions in a class and then export them out to another file.
+<!-- NOTE: --> Generating Dates
+- You can create dates and times in your objects by using the date function
+    this.listingDate = new Date()
 
-- Classes allow for encapsulation via bundelling a lot of like code together, making it easier to use.
-
+    You can also supply arguments so that it has the specific date/time that you want it to.

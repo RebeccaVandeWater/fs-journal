@@ -5,7 +5,7 @@
 
 02. How does `export` differ from `export default`?
   
-  > | ANSWER HERE |
+  > You can use export when you need to move multiple values between modules. If you only need to move over a primitive value, or just a single value, you can use export default instead. They both allow for different ways to organize your code.
 
 03. What is Encapsulation?
   
@@ -13,7 +13,7 @@
 
 04. What are some of the benefits of the `Proxy` object that we are using in our structure for applications?
   
-  > | ANSWER HERE |
+  > A Proxy is able to watch for changes on an object, and then do something based on that change. This is helpful because it allows us to refactor our code and more easily access/change objects depending on conditions that we set.
 
 05. What the difference between a `class` and an instance of a `class`?
   
