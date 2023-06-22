@@ -173,9 +173,6 @@
 
 - You can put a navlink in the header of your HTML, which will add a hash reference to the end of your localhost:8080 page, which will put in the path that your router will be looking for.
 
-- 
-
-
 
 #SECTION - Local Storage
 - When passing a parameter into the constructor of a model, be mindful of passing in one set of data (object) instead of properties separated by commas. This will allow you to pull informatin from local storage easily.
@@ -192,8 +189,21 @@
     - THEN in the appState, you will want to load values so that the things that you want to save are called as soon as the page loads.
         myGachamons = loadState('myGachamons', [Gachamon])
         This uses the key of myGachamons, and then tells you what kind of data type this is (an object in an array)
+        If you don't provide a data type, it just returns your information as a string (because that is how it is stored in local storage). That will likely not work in the code you made in most cases, so that is why you would provide [], or something similar. This puts the objects pulled out into an array so that it is read the way that you made them.
 
     - LAST load the appState data in the controller so that when you refresh, it already appears.
+
+    - The syntax is ('where you want to save', what you want to save)
+
+
+#SECTION - Dynamically Saving Content
+- All information put into the DOM has a value, denoted with .value
+
+- You can save that by putting an id on the form section that a user can change, then you can getElementById by saving it in a variable.
+
+- After that, you can create a new function that passes in that variable and set the information in your object equal to that variable.
+
+- 
 
 
 #SECTION - MVC Functions
@@ -260,3 +270,24 @@
     this.listingDate = new Date()
 
     You can also supply arguments so that it has the specific date/time that you want it to.
+
+<!-- NOTE: --> Mapping
+- Maps create a copy of the array that the map method was invoked on, and make changes that you put inside the map method. This does not change the original array, just makes a copy with changes that you put.
+
+<!-- NOTE: --> Includes vs. Filter
+- Includes returns true or false, and you can have it do something after it finds the result.
+
+- Filter creates a new array with all the things that you put in the filter function, like letter "k".
+
+<!-- NOTE: --> Spread Operator
+- ... is how you denote a spread operator, and it takes the brackets off of an array to take the things out of it.
+- if you console.log(...[1, 2, 3]), it will return 1 2 3
+- This is helpful when you want to take things out of one array and put them into a new array
+- if you console.log([...,4]), it will return [1, 2, 3, 4]
+- //REVIEW the syntax might be wrong on where the ... should go, double check before using it.
+
+<!-- NOTE: --> onblur
+- onfocus is an event where someone clicks on something on your page, if they click away from it then it is an onblur event.
+- onblur can be used to close something or save something.
+    you can put a function (like close or save) like onclick
+    you can only blur something if it is able to be focused at some point
