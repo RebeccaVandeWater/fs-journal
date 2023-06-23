@@ -24,11 +24,11 @@
 
 05. What the difference between a `class` and an instance of a `class`?
   
-  > | ANSWER HERE |
+  > A class is a model for an object that you might be able to create. An instance of a class is a specific item that you have created of that object, typically made in the AppState. 
 
 06. What is a computed Property?
   
-  > | ANSWER HERE |
+  > A computed property is a property on an object that you can create using class values. If I have a player that has a name and a score, I can pass in (with other work) a form that the player completes with their name and earned score. Then, I can put that information into a model that pulls down that information and draws it into the screen so that we can see it. This information is typically returned with a getter.
 
 07. What is the purpose of the `MVC` pattern?
   
@@ -36,14 +36,12 @@
 
 08. What is the job of the `Controller` in the `MVC` Pattern?
   
-  > The controller handles user input and changes the user's view depending on their interaction in the Model.
+  > The controller handles user input and changes the user's view depending on their interaction in the Model. It literally controls what is on the page.
 
 09. What is the job of the `Service` in `MVC`?
   
-  > The service operates and changes data out on our models that are stored in the app state. This is the only thing that can change the app state. 
+  > The service operates and changes data out on our models that are stored in the app state. This is the only thing that can change the AppState (without breaking the MVC pattern). 
 
 10. What is the job of the `Model` in `MVC`?
   
-  > **App State**
-
-#TODO - Questions 5, 6, 10. Add to 7-9.
+  > The Model is a subsection of the AppState. It stores the classes that the AppState then creates and saves instances of.
