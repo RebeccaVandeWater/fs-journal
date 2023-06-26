@@ -25,7 +25,7 @@
 
 07. What does the `API` acronym stand for?
 
-  > | ANSWER HERE |
+  > Application Programming Interface. This allows one computer to interact with another computer via a database/server. The user requests from the first computer are intentionally limited to protect sensitive information that is stored on the server.
 
 08. What must you do in order to `await` a promise inside of a function?
 
@@ -41,4 +41,4 @@
 
 11. What is a 400 error?
 
-  > | ANSWER HERE |
+  > A bad request pertaining to information that a user requested that isn't present on the server. 
