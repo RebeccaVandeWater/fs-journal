@@ -116,6 +116,44 @@ OR
 3. Create a model.
 4. Create a place in the AppState to store it.
 
+#SECTION - Making a folder with MVC Auth
+
+1. bcw create
+2. mvc-auth
+3. Enter your project name
+4. no Git repo
+5. cd into your project
+**NEW** Items have been moved around and id's have also been added called 'auth-template', we also have script tags for auth0 and axios. DON'T take out any of the script tags! A new app.js file is env (environment).js. An AxiosService.js has also already been made. The baseURL in Axios is imported with env, DON'T change the premade axios instance name, as other functions within the premade template depend on it. 
+6. Grab a baseURL from your API. Only grab the API without the filtered data types attached. We can attach those specific parts with concatting on get requests.
+7. Put it in the env in export const baseURL = dev ? 'YOURURL' : 'DON'T WORRY ABOUT THIS PIECE RIGHT NOW1'
+
+#SECTION - Using the MVC model in MVC Auth _some review, some new_
+1. Create your Controller like normal, and ensure its connection with a console log in the controller
+2. Hook up the Controller to the Router like normal.
+3. Create a new view in the Router if necessary, use the premade About view as a reference for the syntax.
+4. In the Controller, create your async get function. A "GET" function is the R for Read part of the CRUD acronym.
+5. Write a try/catch statement inside the GET function, remember that this is so that the function has strict error handling.
+6. In the try section of the try/catch statement, call the service with an await (EX: await carsService.getCar())
+7. Create a const reponse/ const res (short for response)
+8. Call the axios instance with api
+    EX:
+    async getCars(){
+        const res = await api.get('specific URL from filtered request in API link')
+        console.long(res) #NOTE always console long your information to see how it is being stored and which properties you need to drill into. Most of the time your drill is response.data, with .something after that changes depedning on the API.
+    }
+9. Make your model. You can copy one of the objects from your response in the previous step in order to make your model-making process easier.
+    - Most of the models from the CodeWorks premade API has an ID on it. This ID will be used to make CHANGES on the car in the API using a CRUD method.
+    - There will likely be two ID's, one with an underscore and one without. Use the one without the underscore in order to make your model 
+      (this.id = data.id, not data._id)
+		- Keep the creatorId from the data, as this will matter if someone wants to edit or delete and item that they made without someoen else interfering with it. It it's within an array, you can still use it with this.ARRAY = data.ARRAY
+		- Some properties might be useless for your purposes. They do not need to be included in the model, based on your discretion.
+10. Create an instance for your model in the AppState
+11. Use the MAP method in your async/get/await in order to turn the Plain Old Javascript Objecs (POJO's) into useable data. In the CodeWorks API, the res.data is not nested any further, so you don't need to continue drilling down. Instead, start mapping that data with res.data.map()
+	const builtCars = res.data.map(pojo => new Car(pojo))
+12. Save your new data into the AppState with AppState.cars = built cars
+13. Put a listener in your console to draw/log the cars (ARRAY of data, whatever it may be) as soon as they are built.
+
+
 #SECTION - Facts
 
 - Any request made to an API will always be an asynchronous request.
