@@ -153,6 +153,90 @@ OR
 12. Save your new data into the AppState with AppState.cars = built cars
 13. Put a listener in your console to draw/log the cars (ARRAY of data, whatever it may be) as soon as they are built.
 
+#SECTION - Create an item and push it up to the API (NOT STORING IT TO LOCAL STORAGE!)
+1. Create a form for the user to submit data with. Make sure that the input areas match the data that is able to be submitted to the API.
+2. In your controller, create a new async/await function which takes in the form event AND prevents refresh. This should still be inside a try/catch section.
+	EXAMPLE: 
+		async createCar(event){
+			try{
+				event.preventDefault()
+
+				const form = event.target
+
+				const carData = getFormData(form)
+
+				console.log(carData) #NOTE always make sure your data looks good before you send it down to the service.
+
+				await carsService.createCar(carData)
+
+			}
+			catch(error){
+				console.log(error)
+				Pop.error(error.message)
+			}
+		}
+3. In the service, things are going to look different!
+	 EXAMPLE:
+		async createCar(carData){
+			const res = await api.post('api/cars', {object}) 
+			#REVIEW - BECAUSE WE ARE _CREATING_ DATA, WE ARE USING A POST REQUEST. We are also creating a body (PAYLOAD) inside the API category of cars, which is why we are grabbing the body that we want to put the object in, and the object itself.
+
+			console.log("Created data??", {object})
+
+		}
+		#REVIEW - HOWEVER this will not work unless we have a creatorId, as this is part of the "required" form submissions in the API. That is something we can make up using the Auth0 Settings card at the top of the BCW API.
+
+4. Plug in the domain, audience, and clientId into the env from the BCW API Sandbox to make it possible to submit data into the API. This will also create a Log In link in the navbar in your page. For testing purposes, you can make a fake account with a fake email (no connection to Google required). You can create a TempMail email as well.
+
+5. If you try to create and post data and you get a 401 error, you need to log in (make it functional with step 4). If you get a 400 error, it means that you can post data but something happened along the way. Check the Network tab in your Dev tools, check the Preview tab in there, and then read the error for the specifics on the error. It might tell you what you are missing on your object that you need for your object to be accepted. Check your model!
+
+6. When you are able to get a 200 OK HTTP Response, make sure that your API auto-refreshes so that your new object can get drawn to the page as soon as it is made.
+	- Start by saving the object in your AppState in your function (step 3) with const builtCar = new Car(res.data) #NOTE - MAP is not required for this because we do not have an array of objects. We only have ONE, so MAP is not used on this because it is an array method, and we are submitting an object.
+	- Push the new car into the AppState with AppState.cars.push(builtCar)
+	- Make an emit!
+
+#SECTION - To Delete an Item from the API
+1. Make sure that there is a button on the model to click "Delete" on.
+	- Give it an onclick that passes down the id of the item ('${this.id}')
+	- Make sure that only the people who created the item can see the delete button.
+	EXAMPLE
+	get ComputeDeleteButton(){
+		if(!AppState.account || AppState.account.id != this.creatorId){ 
+			#NOTE this is an important check so that people who aren't logged in aren't able to see the delete button, and people who are logged into a different account can't see delete buttons on items they have not created. Attach a listener on accounts in order to make sure that the delete button is drawn when an account is chosen. The items will be drawn on page load BEFORE the account, so we need to have a listener on the accounts so that we can redraw them once it is found.
+		return ``
+		}
+			return `button html here`
+	}
+
+2. Since this is also talking with an API, make sure it is also async/await in the Console.
+	EXAMPLE 
+	async deleteCar(carId){
+		try{
+			await carsService.deleteCar(carId)
+		}
+		catch{
+			console.log(error)
+			Pop.error(error.message)
+		}
+	}
+3. Create the delete function in the Service
+4. Put the Id of the object into the Delete request (similar to a URL in the Get request) so that it pulls up just that object in the API.
+	- async deleteCar(carId){
+		const res = await api.delete(api/cars/${this.carId}) #NOTE the delete() is a delete request to the api. The delete request will not have a body.
+		console.log('deleted car', car.data) #NOTE car.data/res.data will return 'deleted value'
+	}
+5. Make sure to create a confirmation message for deletion!! Check Gregslist for a reference.
+6. Create a splice method in the delete function in the Service in order to get the item out of your AppState, then emit.
+	const carIndex = AppState.cars.findIndex(car => car.id == carId)
+	if(carIndex == -1){
+		throw new Error(`No car Index found with the Id of ${carId}`) 
+		#NOTE this is an important step because if the index you are looking for doesn't exist, it will return -1. Then, if you use splice, it will take out the last item in an array which is BAD.
+	}
+	AppState.cars.splice(carIndex, 1)
+	AppState.emit('cars')
+
+#SECTION - Edit Items in the API
+1. 
 
 #SECTION - Facts
 
