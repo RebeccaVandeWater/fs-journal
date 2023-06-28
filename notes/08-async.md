@@ -236,7 +236,41 @@ OR
 	AppState.emit('cars')
 
 #SECTION - Edit Items in the API
-1. 
+1. Create a button (that is computed based on creator Id, look at gregslistasync for reference) that allows users to change the data inside their item objects
+2. Create a form that is specifically to edit the values of each property, just like they were submitted at the beginning. However, this should only draw when the edit button is clicked.
+	- You can use the same space that the original form was in, and it will look essentially the same, except that it will be pre-populated with the values that were originally there from the user.
+	- Put an id on the form so that you can swap out the interior
+	- The edit form will be public to the user since they should be able to interact with it.
+	- The draw edit form will not be asynchronous because it won't necessarily be connected to the API, but it should be connected to the AppState.
+3. In the Controller:
+	EXAMPLE:
+	drawEditForm(carID){
+		const foundCar = AppState.cars.find(car => car.id == carId)
+
+		setHTML('car-form', foundCar.EditForm)
+	}
+4. In the form that gets drawn, string interpolate the this. values into the value of each area.
+	EXAMPLE:
+	(for the image) value = "${this.imgUrl}"
+5. Change the onsubmit for the edit button to use the edit function instead of the create function
+6. For the edit function, make the function asynchronous and await. 
+	- The form will have the same sort of start in the controller, where we pull the event AND ${this.id} in the params, prevent the default, create and send down the form data into the service with await. This will look the same as it has before, except with two parameters for the form event and the id of the item.
+7. In the service, use a PUT request in order to UPDATE something in the API. This is the U in CRUD.
+	EXAMPLE
+	const res = await api.put(`api/cars/${carId}`, carData)
+	#NOTE this will pass in a body for the API object, since we want to show the data the user passed in. Only delete doesn't take in a body, as it is only removing it and not storing it.
+8. Create a new object with your model for the updated item
+	EXAMPLE:
+	const updatedCar = new Car(res.data)
+	const oldCarIndex = AppState.cars.findIndex(car => car.id == carId)
+	if(oldCarIndex == -1){
+		throw new Error(`No car index found at index ${oldCarIndex}`)
+	}
+	Appstate.cars.splice(oldCarIndex, 1, updatedCar) #NOTE this will replace the information at the oldCarIndex with the new data in updatedCar
+9. Make sure that users can still access the create item button by putting the create item form inside your model with a static get method. 
+	- This will allow you to return the values inside the getter, but without a premade item being needed. Static getters do not require instantiated classes to work like regular getters do. HOWEVER that also means you cannot call it on an instantiated class. It is ONLY for empty classes.
+	- Make a public drawForm function inside your controller that uses this static getter. You should also use a listener to draw the form any time the AppState.item changes. This will allow it to get pulled back up after the user edits an item, so it has a way to come back into that space.
+	- Check gregslistasync for a good example of this.
 
 #SECTION - Facts
 
