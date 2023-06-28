@@ -13,15 +13,15 @@
 
 04. What is a callback / higher order function?
 
-  > | ANSWER HERE |
+  > A callback or higher order function is a function that is able to handle more generalized functions via asynchronous code. They are able to let the browser wait for code to finish running, without stopping the website completely. They are also able to handle hidden-away code that has been encapsulated for the sake of writing code that is easier to read and find errors in. Hoisting plays a big part in this process, as well.
 
 05. What is a `promise`? How do you capture an error from a `promise`?
 
-  > | ANSWER HERE |
+  > A promise is a set of code that is waiting for a response from another function or the user. It will wait (pend), and then the promise fill be fulfilled (resolved), or will fail (be rejected). It can solve the Callback Hell problem of having multiple functions nested inside each other that are waiting for the previous function to resolve before running. Instead, the promise can be chained to a callback in order to resolve a function more quickly. Promises and callbacks can be written with try/catch methods that allow the promise to either be resolved, or stopped and logged as an error quickly if rejected.
 
 06. Name three processes used to make requests over `HTTP`?
 
-  > | ANSWER HERE |
+  > GET, PUT, and POST are the three processes which make requests over HTTP. These use an API in order to make a request for information that can be listed, created, or editted. Then, if the request was written correctly, these requests will be returned to the user via the API from the server's data.
 
 07. What does the `API` acronym stand for?
 
@@ -37,7 +37,7 @@
 
 10. What is `HTTP` response code for a successful request?
 
-  > | ANSWER HERE |
+  > The HTTP code 200 OK is a successful request. It means that your request went through and returned successfully.
 
 11. What is a 400 error?
 
