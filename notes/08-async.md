@@ -272,6 +272,55 @@ OR
 	- Make a public drawForm function inside your controller that uses this static getter. You should also use a listener to draw the form any time the AppState.item changes. This will allow it to get pulled back up after the user edits an item, so it has a way to come back into that space.
 	- Check gregslistasync for a good example of this.
 
+#SECTION - Connecting one API with another, CRUD between API's
+
+- Keep the premade BCW API. Make a new API request inside the API Service, likely below the BCW API. Set the timeout to just a little bit after the BCW one so that they don't conflict.
+
+1. Make your Controller, Service, Model, and AppState instance of your item(s) like you normally would.
+	- Don't forget to get rid of the Auth template in the index.html
+
+2. Make an async request to the secondary API in the Controller and Service to get the items that you need off of it.
+	- Make it a try/catch method in the Controller so that you have better error handling.
+	- Make the async/await get function in the service to get the list of items
+
+3. If your items have information that is nested further in them because they store a url property, you can make an import {Object[]} class in your AppState so that you can grab them, without making a whole model for them. You won't get great intellicense for it, though.
+	- This is great for creating a menu/list of items that you can click on to pull up an active item.
+	- Create a generic draw template for these items.
+		EXAMPLE: (inside your draw function)
+		spells.forEach(spell => {
+			template +=
+			`<li role="button">${spell.name}</li>` 
+			#NOTE even without intellicense, you can check the pojo's inside the API to make sure they have the property you want.
+			#NOTE role isn't technically needed, but it is used by screen readers and tells the user that the object is a button.
+		})
+	- Create the place for those elements to be drawn in your HTML.
+	- Draw them when the spells change, i.e., add a listener to it.
+
+4. Create a model for your larger set of information.
+	- Check between the item API and the Sandbox API. Make sure that the properties that you need to pass through match the syntax of the API that you want to send your information to. 
+	EXAMPLE: (the information that will be passed to the sandbox has a property name of description and stores it as a string, so we have to make sure we pass those through from the data.)
+	this.description = data.desc.toString(' ')
+
+5. On your webpage, if you have a crazy long list of stuff, you can add a scroll bar on your unorderedList (ul tag)
+	- in css:
+		ul{
+			max-height: 80ishvh;
+			overflow-y: auto; #NOTE: this overflow-y creates the scroll bar automatically when you go over the max-height
+		}
+
+6. SAVING TO THE SANDBOX FROM THE SECONDARY API MODEL OBJECT: 
+	1. Make a button on the active item that will save to Sandbox on click
+		- You will need to make a new controller that will just deal with the Sandbox API
+			EXAMPLE:
+			app.SandboxController.createSpell() 
+			#NOTE: You will not need to pass anything down here specifically because there is only one active item in the AppState.
+
+	2. Write a function that creates a POST request to the API
+		- Keep in mind here that since we are in a new controller, we will also need a new Service.
+		- 
+
+	3. 
+
 #SECTION - Facts
 
 - Any request made to an API will always be an asynchronous request.
