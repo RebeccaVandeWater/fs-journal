@@ -299,7 +299,7 @@ OR
 4. Create a model for your larger set of information.
 	- Check between the item API and the Sandbox API. Make sure that the properties that you need to pass through match the syntax of the API that you want to send your information to. 
 	EXAMPLE: (the information that will be passed to the sandbox has a property name of description and stores it as a string, so we have to make sure we pass those through from the data.)
-	this.description = data.desc.toString(' ')
+	this.description = data.desc.join('\n') #NOTE \n will not always be needed, but is nice if you have an array of multiple indexes of strings. They will get a new line each time they are written.
 
 5. On your webpage, if you have a crazy long list of stuff, you can add a scroll bar on your unorderedList (ul tag)
 	- in css:
@@ -310,6 +310,7 @@ OR
 
 6. SAVING TO THE SANDBOX FROM THE SECONDARY API MODEL OBJECT: 
 	1. Make a button on the active item that will save to Sandbox on click
+		- Make it only viewable if you are logged in to prevent a 401 error. Check Gregslist Async (Week4) for an example.
 		- You will need to make a new controller that will just deal with the Sandbox API
 			EXAMPLE:
 			app.SandboxController.createSpell() 
@@ -317,9 +318,60 @@ OR
 
 	2. Write a function that creates a POST request to the API
 		- Keep in mind here that since we are in a new controller, we will also need a new Service.
-		- 
+		- We will make another request with const res, but the api request section will look different
+			const spellToSendToApi = AppState.activeSpell
 
-	3. 
+			const res = await api.post('api/spells', spellToSendToApi) #NOTE notice that this is talking to the Sandbox prebuilt API, not the secondary API
+
+	3. If you want to see the things that you stored in the Sandbox API on a separate page, you can make a new view so that they can be drawn only there and out of your way. The process will be basically the same with setHTML, with the id you are setting the HTML at being in the new view. Make sure it's connected to the router and controller, as well.
+		- You will need a new function in your Sandbox API Controller to get your spells from the API. Again, this is like normal, just in a separate controller.
+		- Make sure that you are saving the items into the AppState with a new array, like myItems = []
+		- Make a model for those items
+		- If the id's conflict, make a document.getElementById and setInnerHTML line instead of a setHTML line
+
+#SECTION - Editing a property as a user, that is a boolean with a checkbox
+1. On your template for the item, create a checkbox input with input type="checkbox"
+	- They will be "checked" if you add the checked property on them, outside of the class like with hidden
+
+2. Add an onchange to the checkbox
+	- onchange="app.SandboxSpellsController.toggleSpellPreparation(${this.id})" #NOTE the Id is needed because we want to change the property on ONLY this class.
+
+3. In the controller and service, we will be making an asynchronous function
+	- Make sure to pass the item's Id all the way into the service so that you can use it in the PUT request
+
+4. Make the put request in the service
+	- async toggleSpellPreparation(spellId){
+
+		const foundSpellIndex = AppState.mySpells.findIndex(spell => spell.id == spellId)
+
+		const foundSpell = AppState.mySpells[foundSpellIndex]
+		if(!foundSpell){
+			throw new Error("INVALID ID")
+		}
+
+		foundSpell.prepared = !foundSpell.prepared #NOTE this sets the value to the OPPOSITE of what it previously was. **BUT**, don't use this because it isn't stored. Use the one below.
+
+		const res = await api.put(`api/spells/${spellId}`, {prepared: !foundSpell.prepared})
+
+		console.log('edited spell', res.data)
+		
+		const updatedSpell = new Spell(res.data)
+
+		AppState.mySpells.splice(foundSpellIndex, 1, updatedSpell)
+	}
+
+5. To make sure that the checkbox is actually checked or unchecked based on whether it is true or false: in the template, write a turnary in the items input field.
+	- ${this.prepared ? 'checked' : ''} #NOTE - remember that ternaries evaluate based on true or false, so if the prepared property is set to true it will be checked, if it is false it will return an empty string.
+
+6. If you want to reflect the number of checkboxes that have been toggled with a draw function:
+	1. In the HMTL, give some numbers inside spans like when you draw a cart or something similar. Make sure to give all applicable spans id's.
+	2. If one is the total, you can setText('itemTotal', items.length)
+	3. If one is the checkboxes, 
+		const itemsWithProperty = myItems.filter(item => item.property) 
+		#NOTE this will evaluate the property as if it stored a boolean. Checkboxes are booleans, so this works for that purpose.
+
+		setText('itemCount', itemsWithProperty.length)
+	4. Make sure to add an emitter to the draw number function so that it redraws when the items are changed.
 
 #SECTION - Facts
 
