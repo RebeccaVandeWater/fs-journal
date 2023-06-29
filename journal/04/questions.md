@@ -1,11 +1,11 @@
 # Understanding Asynchronous Code, and API's
 01. What is the difference between `asynchronous` code and `synchronous` code?
 
-  > | ANSWER HERE |
+  > Synchronous code is code that runs top to bottom in order like we write it. However, if we have code (like getting something from an API) that takes just a little bit longer, or if we have a code that needs to run after a user responds to a prompts, then we will want to use asynchronous code. In this case, we can write it "synchronously" but take advantage of async and await in order to make JavaScript stop applicable code from running until a promise has been fulfilled (a response from an API, a user click, etc).
 
 02. What is an event listener?
 
-  > | ANSWER HERE |
+  > An event listener is a method that, when given a piece of code like a variable, alerts the function it is placed in when the code it is "watching" changes. This allows a function that the listener is placed in to run. It's sort of like a promise that is waiting for a response.
 
 03. What does *REST* stand for, and in simple terms what does it mean??
 
@@ -29,11 +29,11 @@
 
 08. What must you do in order to `await` a promise inside of a function?
 
-  > | ANSWER HERE |
+  > In order to await the promise, you have to declare the function as async before you write it, or the applicable awaiting code. This lets JavaScript know that a promise has been made, and it has to wait to move on inside that area until the promise has been fulfilled or rejected.
 
 09. What is the purpose of encapsulation in programming?
 
-  > | ANSWER HERE |
+  > Encapsulation helps keep code separated and easy to read. It also helps you find errors more quickly.
 
 10. What is `HTTP` response code for a successful request?
 

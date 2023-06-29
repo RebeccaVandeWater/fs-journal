@@ -373,6 +373,28 @@ OR
 		setText('itemCount', itemsWithProperty.length)
 	4. Make sure to add an emitter to the draw number function so that it redraws when the items are changed.
 
+#SECTION - When API's use keys
+- In the AxiosService, you will paste params: { api_key: 'your provided API key' }
+
+- You will only need an API key for API's that require you to make a signup before using their server.
+
+#SECTION - To let users make queries (i.e. searchbars)
+
+- all queries start with ?query=
+
+1. Make a form for users to submit, type will be text and we can use the required, minlength, and maxlength properties on it. Make sure it has a submit button, too!
+	- In the form submission make sure that it is event.preventDefault()
+	- Don't forget to give the input a name!
+
+2. In your get function, you need to pass through the event
+	- save the form data with the normal form const's and let's (let form = event.target etc.)
+	- Don't forget to log the form data!
+
+3. When passing the form data into the get URL with string interpolation, pass in formData.search, so that you can pull the string out of the object instead of just passing in the object.
+
+
+
+
 #SECTION - Facts
 
 - Any request made to an API will always be an asynchronous request.
@@ -394,7 +416,11 @@ OR
 
 - Our MVC document is going to be basically the same, the only thing that will change is where we are getting our data from.
 
-- Create Pop success/errors frequently and thoughtfully to notify your users when something goes wrong. This is good practice that we might not think about.
+- Create Pop success/errors frequently and thoughtfully to notify your users when something goes wrong. This is good practice that we might not think about. This is easy to do with try/catch.
+
+- let htmlBody = document.body
+	htmlBody.style.backgroundImage = `url(${picture.imgUrl})`
+	- This targets the html body inside javascript without having to make a custom CSS class. It won't be perfect, so you will still need to target the image via a body selector and make the image cover, etc.
 
 #SECTION - Syntax
 
