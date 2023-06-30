@@ -9,7 +9,7 @@
 
 03. What does *REST* stand for, and in simple terms what does it mean??
 
-  > | ANSWER HERE |
+  > REpresentational State Transfer. This means that the user will request information from a server, which will then return the information in its current state, with all of its applicable details. The request will involve one of the CRUD methods in some form.
 
 04. What is a callback / higher order function?
 
