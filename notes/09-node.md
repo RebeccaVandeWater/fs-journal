@@ -129,7 +129,7 @@
 	}
 
 
-#NOTE - Right now, in the main.js, comment out the DbConnection.connect as it connects to databases, and we will do that later. D that same to the Auth0Provider in the startup.js unter the ConfigureMiddleWare function.
+#NOTE - Right now, in the main.js, comment out the DbConnection.connect as it connects to databases, and we will do that later. Do the same to the Auth0Provider in the startup.js unter the ConfigureMiddleWare function.
 
 #SECTION - The tour of node
 - In the client folder, you will see your index.html folder
