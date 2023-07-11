@@ -168,10 +168,174 @@
 - You need to add the IP address of your location that the database will be used in. It's easier to select "Allow Access from Anywhere" instead of adding your IP address every time you move your computer to a new location.
 - When you connect, you will need to copy and paste the connection string with the correct password into the .env file with the connection string inside it, without quotes.
 
-#SECTION - Models/Schemas
-- ORM: Object Relational Mapper; Mongoose is the ORM for our node model
-- Schemas have almost the exact same purpose as models
-- 
+#STUB - Getting started
+1. When making a new project, type bcw create > express-mvc. This allows us to load up a client, a server, and will allow us to use MongoDB to store information
+2. Code . into your new project, and select open when prompted to open a new workspace. This will open a new, separate VSCode Folder
+	- This will have a client and a server which have controllers, services, etc.
+3. In the .env file, you will use the auth0 information to fill out your .env file in both the client (env.js) and the server (.env).
+	- In the CONNECTION STRING, between the / and the ?, type in your project name so that it is easier to find in MongoDB
+	- THIS SHOULD NOT BE PUBLIC. In the gitignore file, type in .env to prevent it from uploading to github.
+	- You can copy and paste it somewhere safe so that you can just reuse it every time you need it. It will not change unless you change your domain and connection.
+4. Then you will either hit the debug/run or the bcw serve and run both the client and server
+	- When you create/sign in to your auth0 account, it will post the user information in both the auth0 and MongoDB database.
+	- MongoDB will automatically create folders for our API if we set them up correctly
+
+#STUB - Creating Schemas
+- Schema stands for schematic and it tells MongoDB what is allowed to be stored in each folder. This is helpful for security and preventing malicious text or code from entering the database. #NOTE - ALWAYS CODE AS IF EVERYONE IS MALICIOUS AND EVERYONE IS STUPID. Code as if you are under attack and make sure that you cover your bases.
+	- This also prevents users from using an application like Postman from going around your validation and protections on the front end. It protects the backend, too.
+	- ORM: Object Relational Mapper; Mongoose is the ORM for our node model
+	- Schemas have almost the exact same purpose as models
+
+- To make a Schema: 
+	1. Make a new model (like Car.js)
+	2. Export the class
+		export const CarSchema = new Schema( #NOTE - Schema will be imported from Mongoose
+			make:{
+				type: String, #NOTE - This can be any type of value (number, boolean, etc.)
+				required: true #NOTE - This makes it so that we cannot submit a car if it doesn't have this property.
+				maxlength: 50, #NOTE - This is the same kind of form validation that we would have in the front end, but now on the backend so that people cannot submit a bunch of malicious code.
+				minlength: 3
+			},
+			model:{
+				type: String,
+				required: true,
+				maxlength: 50,
+				minlength: 1
+			},
+			year: {
+				type: Number,
+				required: true,
+				max: 2025,
+				min: 1901
+			},
+			color:{
+				type: String,
+				maxlength: 100,
+			},
+			ownedByGrandma:{
+				type: Boolean,
+				required: true,
+				default: false #NOTE - This is if the user doesn't provide a value
+			},
+			miles:{
+				type: Number,
+				required: true,
+				max: 1000000,
+				min: 2
+			},
+			engineType:{
+				type: String,
+				enum: ['v8', 'v6', 'v7', 'v19', 'big', 'small', 'electric', 'check', 'medium'], #NOTE - Requires the submission to be one of the items in the enum.
+				default: 'medium'
+			},
+			description:{
+				type: String,
+				maxlength: 500,
+			},
+			price:{
+				type: Number,
+				required: true,
+				max: 1000000,
+			},
+			imgUrl:{
+				type: String,
+				required: true,
+				default: '(some url)',
+				maxlength: 1000
+			},
+			#REVIEW This is a really important object to have on your model!!! This will ensure that only the correct user can edit or delete objects on the webpage.
+			creatorId:{
+				type: Schema.Types.ObjectId, #NOTE - This is a schema that is created by MongoDB, so we can pull it from there. It provides the creatorId.
+				required: true,
+			#NOTE: When posting with postman, you can use the creatorId the you get off of your sample user account in MongoDB.
+			}
+		)
+
+	3. If you copy in ({timestamps: true, toJSON:{virtuals:true}}) at the bottom your your export inside the parens, you will make it so that your model automatically gets a createdAt and updatedAt (timestamps) and it will automatically create an ID (virtuals)
+
+	4. Go to DbContext.js to register your new collection
+		Cars = mongoose.model('Car', CarSchema) #NOTE - Your model name should be plural because multiple things are being stored inside it, with the singular name and schema that it is being pulled from inside the parens.
+
+#SECTION - Making a Controller inside of the Workspace
+
+- This is almost the same as setting it up in Node, as above:
+	export class CarsController extends BaseController{
+		constructor(){
+			super('api/cars')
+			this.router
+			.get('', this.getCars)
+		}
+
+		async getCars(req, res, next){
+			try{
+
+			} catch(error){
+				next(error)
+			}
+		}
+	}
+
+#SECTION - Making a Service inside of the Workspace
+
+- This is also almost the same as setting this up in Node, with some important changes
+
+	class CarsService{
+		async getCars(){
+
+			const cars = await dbContext.Cars.find() 
+			
+			#NOTE - Remember to use async/await in order to make sure there is time to pull down this information. Then, pull the Schema out of dbContext. After that, we are using the MONGOOSE method find. This is NOT the same as the array method of find. 
+
+			#REVIEW - MongoDB doesn't store our code as Javascript or JSON. Mongoose translates it from BSON (binary script) into JSON. It is the translator that stands between us and the database, and is an ORM.
+
+			return cars
+		}
+	}
+	export const carsService = new CarsService()
+
+#SECTION - Creating an item in our database
+
+- As before, under this.router create a post method in the constructor
+	.post('', this.createCar)
+
+
+	async createCar(req, res, next){
+		try{
+			const carData = req.body
+
+			const car = await carsService.createCar(carData)
+
+			res.send(car)
+		} catch(error){
+			next(error)
+		}
+	}
+
+- In the service:
+	async createCar(carData){
+		const car = await dbContext.Cars.create(carData) 
+		
+		#NOTE - Mongoose will take the carData, convert it so that MongoDB can store it, and then return that information back to us in the return below.
+
+		return car
+	}
+
+#SECTION - Securing your server with Middleware
+
+- In the constructor, you will use a .use method
+	.use(Auth0Provider.getAuthorizedUserInfo) #NOTE - in this case, Auth0Provider is the middleware that requires authorization before the rest of the CRUD methods can be used that should be attached to a user.
+
+	#NOTE - Any thing that comes after this .use method, you will HAVE to be logged in via Auth0 in order to use. Otherwise, you will throw a 401 error.
+
+- In Postman, go to the Authorization tab. Change your Authorization Type to Bearer Token, then paste the Bearer token from your ⚙️token in the headers from the client login on localhost:8080 here (Check the Network tab > Preview tab in the Dev Tools). This acts like logging into the website, with secure information. Keep in mind that they do have a timeout, which you can change, or you can re-login to get a new one.
+
+- In your previous code which accesses accounts (post, put, delete), in the controller after your const carData = req.body
+
+	carData.creatorId = req.userInfo.id
+
+	#NOTE - This attaches the creatorId to the request so that a malicious user can no longer use their bearer token to post to someone else's account. This works because in the controller, we are using the .use method. They can still post like they want to, but it adds their own bearer token and creatorId so they add those posts with their own name.
+
+	#NOTE - If there is no data, you can instead use const userId = req.userInfo.id and then pass it into the service as a secondary parameter.
 
 #SECTION - Facts
 

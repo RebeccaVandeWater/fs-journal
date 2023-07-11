@@ -1,20 +1,20 @@
 # Intro to Server side concerns with JavaScript
-01. What do the letters of the acronym `CRUD` stand for?
+✅ 01. What do the letters of the acronym `CRUD` stand for?
 
   > C - Create, this is the POST request.
   > R - Read, this is the GET request.
   > U - Update, this is the PUT request.
   > D - Delete, this is the DELETE request.
 
-02. Each action that `CRUD` represents maps to an HTTP request. What HTTP request does each `CRUD` action correspond to?
+✅ 02. Each action that `CRUD` represents maps to an HTTP request. What HTTP request does each `CRUD` action correspond to?
 
   > As stated in question 01: C corresponds to the POST HTTP request, R corresponds to the GET HTTP request, U corresponds to the PUT HTTP request, and D corresponds to the DELETE HTTP request.
 
-03. What does `ORM` stand for? Which `ORM` do we use when interacting with MongoDB
+✅ 03. What does `ORM` stand for? Which `ORM` do we use when interacting with MongoDB
 
-  > | ANSWER HERE |
+  > Object Relational Model: We use Mongoose to take the information stored in MongoDB and translates it into Javascript that we can use in VSCode.
 
-04. Which two `HTTP` request types include a body?
+✅ 04. Which two `HTTP` request types include a body?
 
   > POST and PUT require a body. POST creates a brand new object with the user-provided data. PUT updates an already-existing object with user-created data.
 
@@ -36,7 +36,7 @@
 
   > | ANSWER HERE |
 
-09. Demonstrate the pattern that is used to include a request query with the client's `HTTP` request providing the property `tag` and the value `winter`.
+✅ 09. Demonstrate the pattern that is used to include a request query with the client's `HTTP` request providing the property `tag` and the value `winter`.
 
   > ?tag=winter
   > Here, the query is indicated with the ?. Then, it is followed with the key/value (or property/value) pair tag=winter. The entire query would be appended onto an /api url.
