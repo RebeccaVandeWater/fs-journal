@@ -337,5 +337,78 @@
 
 	#NOTE - If there is no data, you can instead use const userId = req.userInfo.id and then pass it into the service as a secondary parameter.
 
-#SECTION - Facts
+#SECTION - Relationships
+- UML - Unified Modelling Language. Points from one data type to many or one other to define their relationship with each other.
+
+- Objects can point toward one or more other objects that are related to each other. These would be like pages that belong to a book, which is a One to Many relationship.
+	- The items that belong to the other item would have a property on them that defines which thing they belong to with an id.
+	- EXAMPLE: #NOTE Not codeable script 
+		book[
+			id:{objectId},
+			title: {string(100)},
+			description:{string(500)},
+		],
+		page[
+			id: {objectId},
+			chapterNum: {number},
+			content: {string(100)},
+			bookId: {objectId}
+		],
+		account(author)[
+			id: {objectId},
+			name: {string100},
+			picture: {string(500)},
+			email: {string(100)}
+		],
+		bookAuthor[ #NOTE This type of object will make sure that we can have multiple items stored on another object without an array, which would need a for loop and would get messy. It makes many-to-many objects easier to access, in addition to making the properties on them easier to access.
+			id: {objectId},
+			bookId: {objectId},
+			authorId: {objectId}
+		]
+
+#STUB - Getting Started:
+	(MAKE SURE YOUR ENV IS SET UP)
+	1. Make your models first based off of the UML
+	2. Set up your controllers and services. You will have one for each model. => in the controller, make sure you have a .use function and your super.
+		- In the "Many" object in the one-to-many relationship, in your model you will write:
+		
+		export const PageSchema = new Schema({
+			chapterNumber:{ type: Number, required: true, min:0},
+			content:{type: String, required: true, maxlength: 1000},
+			bookId: {type: Schema.Types.ObjectId, required: true, ref:'Book'}, #REVIEW: This will be an id that is set up the same way as an individual item. However, the reference is to the Book schema, which has been named 'Book'.
+		})
+
+			- In its service: 
+				- You will set up the controller and service the same way EXCEPT when writing a method in the service. In this case, you will likely call in another service in order to pull off the many's from the one. For example, you would connect the book and pages services so that you can use a getBookById method to find the pages that are attached to that id.
+
+#SECTION - Writing a virtual
+- This will be used in Many-to-Many objects, like in the books to authors example below. This will be used to grab collections inside of other objects.
+
+1. Inside your model, after your properties, write:
+
+	BookAuthorSchema.virtual('book', { #NOTE This is the name of the virtual, it only works if the schema has that property on it.
+		localField: 'bookId', #NOTE Refer to this property on this object
+
+		foreignField: '_id',
+
+		justOne: true #NOTE There is just one of these things
+
+		ref: 'Book' #NOTE Reference the book schema
+
+	})
+
+2. In the service, in one of the CRUD functions:
+
+	await bookAuthor.populate('book') #NOTE This will run all the virtuals on this property.
+
+> Another example:
+	BookAuthorSchema.virtual('author', {
+		localField: 'authorId',
+		foreignField: '_id',
+		justOne: true,
+		ref: 'Account'
+	})
+
+	- In the service:
+		await bookAuthor.populate('author', 'name picture') #NOTE this is in Mongoose syntax
 
