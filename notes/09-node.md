@@ -412,3 +412,279 @@
 	- In the service:
 		await bookAuthor.populate('author', 'name picture') #NOTE this is in Mongoose syntax
 
+#SECTION - Making a Full Stack Application
+
+#STUB - Getting Started
+1. bcw create > express-mvc file
+2. Initialize your repository _before_ you open the Workspace
+3. Open your file.Workspace, then click the button that says "Open Workspace"
+4. Fill out the .env and env.js file
+5. cd into your client with CTRL `, then run bcw serve to open localhost:8080
+6. Open the run/debug to run localhost:3000
+
+#STUB - Setting up Models, Controllers, Servers (backend)
+1. Create your model that will have other models feed into it.
+	EXAMPLE: Bird.js
+	export const BirdSchema = new Schema({
+		name:{
+			type: String,
+			required: true,
+			maxlength: 75,
+			minlength: 3
+		},
+		imgURL:{
+			type: String, 
+			required: true,
+			maxlength: 300
+		},
+		canFly:{
+			type: Boolean,
+			required: true,
+			default: true
+		},
+		size:{
+			type: String,
+			enum: ["small", "medium", "large"],
+			default: "small"
+		},
+		reporterId:{
+			type: Schema.Types.ObjectId,
+			required: true,
+			ref: 'Account'
+		}
+	}, {timestamps: true, toJSON: {virtuals: true}})
+
+2. Make your controller & service for the overhead model.
+	EXAMPLE: BirdsController.js
+	export class BirdsController extends BaseController {
+		constructor(){
+			super('api/birds')
+
+			this.router
+			.get('', this.getBirds)
+		}
+
+		async getBirds(req, res, next){
+			try{
+				const birds = await birdsService.getBirds()
+
+				return res.send(birds)
+			} catch(error){
+				next(error)
+			}
+		}
+	}
+
+	BirdsService.js
+	class BirdsService {
+		await getBirds(){
+			const birds = await dbContext.Birds.find() #NOTE Make sure that the dbContext has this model hooked up
+
+			return birds
+		}
+	} 
+
+	export const birdsService = new BirdsService
+	
+3. Test your .getAll in Postman
+	- Don't forget to set up your API folder, overhead folder for the model, and variables for items like the URL and auth token.
+
+4. Write your create function
+	- Use the dbContext.Model.create()
+	- Don't forget to grab the data off of the request with req.body
+	- Test again in Postman 
+		- You'll need to pass in the body with Body > raw > JSON
+		- You will also need the Id of the item it is attached to. The location will depend on the data type. If it is from the Account, you can grab it from localhost. Otherwise, you'll have to grab it off of the overhead model.
+		- Use the .use(Auth0Provider.getAuthorizedUserInfo) to ensure that that person who is logged in is the one who is creating the item.
+			- Put that on the create method, and pass it in as a second parameter. This will ensure that the item is assigned the correct creatorId.
+				EX: birdData.reporterId = req.userInfo.id
+
+5. Add a query to the .getAll request to get certain birds back
+	EXAMPLE: 
+	const query = req.query
+
+	In Postman the query would look like:
+	'http://localhost:3000/api/birds?size=small'
+
+	Remember that queries are formatted with a ?, and then you can pull properties off of it with key=value
+	This example pulls off all birds that are small.
+
+	Make sure to pass in the query in the parameters of the get request.
+
+	#NOTE you can also make the query in a filter in the service
+		EXAMPLE: const birds = await dbContext.Birds.find({size: 'small'})
+
+		OR 
+
+		const birds = await dbContext.Birds.find(query)
+
+	A query that is undefined will just return the entire array.
+
+#STUB - Making the frontend
+
+1. To push up backend code so that it can be pulled down to the front end on another computer. 
+	- Push up and commit work to gitHub. Sync changes as well.
+	- This should be on the SAME repository that your team is using. 
+	- On collaborators and teams in the repo, add the usernames for everyone on the team. Everyone will be collaborating on the one file on one team member's github.
+		- Make sure that they are set to admin
+	- On the other end, git clone the repository. YOU WILL NOT FORK IT.
+	- In the cloned project, copy and paste the .env from the same person's env information. It should be from the same person who made the repo. This will ensure that it consistently updates to the same MongoDB.
+	- Make sure that you are in the server, then type npm i to ensure that your shells are the same as theirs.
+	- Open up the same localhosts that you had before.
+
+	#NOTE - Merge Conflicts:
+		- If you are working on the front end and back end separately and on only two computers, they won't typically conflict. However, things can get tricky on multiple computers.
+
+2. Make your controller:
+	EXAMPLE: BirdsController.js
+
+	export class BirdsController{
+		constructor(){
+			console.log('Birds Controller loaded')
+		}
+	}
+
+	- Hook it up in the router
+
+3. Make your service:
+	EXAMPLE: 
+	class BirdsService{
+
+	}
+	export const birdsService = new BirdsService
+
+3. Make a get function
+
+	Controller:
+	async getBirds(){
+		try{
+			await birdsService.getBirds()
+		} catch(error){
+			console.log(error)
+			Pop.error(error.message)
+		}
+	}
+
+	Service:
+	async getBirds(){
+		const res = await api.get('api/birds')
+
+		console.log('Getting Birds', res.data)
+	}
+
+	Invoke it in the constructor
+	this.getBirds()
+
+4. Make a model
+	Bird.js
+
+	export class Bird{
+		constructor(data){
+			this.id = data.id
+			this.name = data.name
+			this.canFly = data.canFly
+			this.imgUrl = data.imgUrl
+			this.size = data.size
+			this.reporterId = data.reporterId
+		}
+	}
+
+5. Store the data by making an AppState instance
+	AppState.js
+
+	birds = []
+
+6. Finish the function by pushing the data in with a map
+	In the service:
+	
+	const birds = res.data.map(b => new Bird(b))
+
+	AppState.birds = birds
+
+	console.log("Got Birds!", AppState.birds)
+
+7. Make a getter template in the model. You can design this in the index.html first.
+	- Don't forget to make it mobile friendly!
+
+8. Draw the information
+	function _drawBirds(){
+		let birds = AppState.birds
+		let template = ''
+		birds.forEach(b => template += b.BirdCardTemplate)
+		setHTML('birds', template)
+	}
+
+9. If appropriate, make a setActive function. Make sure that there is an onclick on the getter template.
+
+	Controller: #NOTE This is pulling something from the AppState, so async is not necessary. Using "get, put, post, delete" in the name is not recommended for the same reason. No API's are involved!
+
+	setActiveBird(birdId){
+		try{
+			birdsService.setActiveBird(birdId)
+		} catch(error){
+			console.log(error)
+			Pop.error(error.message)
+		}
+	}
+
+	Server:
+	setActiveBird(birdId){
+		const foundBird = AppState.birds.find(b => b.id == birdId) 
+		#NOTE - Make sure you have this instance in the AppState (bird = null)
+
+		<!-- console.log("Found Bird!", foundBird) -->
+
+		AppState.bird = foundBird
+
+		console.log("Found Bird!", AppState.bird)
+	}
+
+	Make a getter template, then make a draw function
+
+	function _drawActiveBird(){
+		let activeBird = AppState.bird
+
+		setHTML('modal-guts',activeBird.ActiveBirdTemplate)
+	}
+
+10. Make a form so that you can create a new thing, if applicable.
+
+11. Make the function to create the thing
+	EXAMPLE: 
+
+	Controller:
+	async createBird(event){
+		try{
+			event.preventDefault
+
+			let form = event.target
+
+			let formData = getFormData(form)
+
+			if (formData.canFly = "on"){
+				formData.canFly = true
+			} else {form.canFly = false}
+			#NOTE - This is because of a checkbox that exists on this example form. Good to use instead of a compute!
+
+			await birdsService.createBird(formData)
+
+		} catch(error){
+			console.log(error)
+			Pop.error(error.message)
+		}
+	}
+
+	Service:
+	async createBird(formData){
+		const res = await api.post('api/birds', formData) 
+		#NOTE We are making a new bird in the API AND passing the form data in to have that API create the new item with
+
+		console.log("Creating Bird", res.data)
+	}
+
+12. When ready, sync the new information on github
+	- Commit and push your changes
+	- Sync your changes
+
+13. To pull down new changes that a team member made
+	- In your own folder on your computer, you will not need to git clone again. Instead, in the footer bar on vscode you can click the sync button to pull down the new changes.
