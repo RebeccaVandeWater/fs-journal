@@ -688,3 +688,202 @@
 
 13. To pull down new changes that a team member made
 	- In your own folder on your computer, you will not need to git clone again. Instead, in the footer bar on vscode you can click the sync button to pull down the new changes.
+
+#STUB Making more models that talk to each other (backend)
+
+1. In the overhead schema, at the bottom and out of the export, make a virtual that you can plug in to the object:
+	BirdSchema.virtual('reporter', {
+		localField: 'reporterId',
+		foreignField: '_id',
+		justOne: true,
+		ref: 'Account'
+	})
+
+2. In the getAll method, populate the virtual in the service:
+	const birds = await dbContext.Birds.find(query).popular('reporter', 'name picture') 
+
+	#NOTE Remember, this is the object that we are looking at with the properties on it.
+
+3. To populate an object when we create something, in the service and on a separate line in the create method:
+	await bird.populate('reporter', 'name picture')
+
+4. If applicable, make an object that will connect to the overhead object:
+	1. Make a new Schema:
+		export const BirdWatcher = new Schema({
+			birdId:{
+				type: Schema.Types.ObjectId,
+				required: true,
+				ref: 'Bird'
+			},
+			reporterId:{
+				type: Schema.Types.ObjectId,
+				required: true,
+				ref: 'Account'
+			}
+
+		}, {timestamps: true, toJSON: {virtuals: true}})
+
+		BirdWatcherSchema.index({birdId: 1, watcherId: 1}, {unique: true}) 
+
+		#NOTE This means that you can only have one of the birdId, the watcherId, and they have to be unique. It's a great way to prevent users from doing something like spamming buttons to make one thing. You have to make this before spinning up your server to make sure this rule is registered before you start making objects. This is not a rule that you should put on EVERY object though.
+
+	2. Make a controller and service for that object
+
+		Controller:
+		export class BirdWatchersController extends BaseController{
+			constructor(){
+				super('api/birdWatchers')
+
+				this.router
+
+				.use(Auth0Provider.getAuthorizedUserInfo)
+				.post('', this.createBirdWatcher)
+			}
+		}
+
+		async createBirdWatcher(req, res, next){
+			try{
+
+				const birdWatcherData = req.body
+
+				birdWatcherData.watcherId = req.userInfo.id
+
+				const birdWatcher = await birdsService.createBirdWatcher(req.body)
+
+				return res.send(birdWatcher)
+			} catch(error){
+				next(error)
+			}
+		}
+
+		Service: 
+		class BirdWatchersService{
+			async createBirdWatcher(birdWatcherData){
+				const birdWatcher = await dbContext.BirdWatchers.create(birdWatcherData)
+
+				return birdWatcher
+			}
+
+		} 
+
+		export const birdWatchersService = new BirdWatchersService
+
+	3. Since the information made in the above createBirdWatcher function isn't really useable to the user, make another virtual:
+
+		If you want to send user info back:
+		BirdWatcherSchema.virtual('watcher', { 
+			localField:'watcherId',
+			foreignField:'_id',
+			justOne: true, #NOTE: there should only be one account with this id.
+			ref: 'Account'
+		})
+
+		If you want to send the bird info back, too:
+		BirdWatcherSchema.virtual('bird', {
+			localField: 'birdId',
+			foreignField: '_id',
+			justOne: true,
+			ref: 'Bird'
+		})
+
+		Make sure to populate them in their appropriate functions in the create function:
+
+		await birdWatcher.populate('bird') #NOTE: we can give the entire bird back for the user to see, but we might not want to do that if it draws on the client end. It's good to set up the virtual in case we want to use it again later.
+
+		await birdWatcher.populate('watcher', 'name picture') #NOTE: we only want the users to be able to see public information, not sensitive information
+
+	4. To make this function available to an overhead function
+		- In the router:
+			.get('/:birdId/birdWatchers', this.getBirdWatchersByBirdId)
+
+		- In the BIRDS (overhead) controller:
+			async getBirdWatchersByBirdId(req, res, next){
+				try{
+
+					const birdId = req.params.birdId
+
+					const birdWatchers = await birdWatchersService.getBirdWatchersByBirdId(birdId)
+
+					return res.send(birdWatchers)
+				} catch(error){
+					next(error)
+				}
+			}
+
+		- In the BIRD WATCHERS SERVICE:
+			async getBirdWatchersByBirdId(birdId){
+				const birdWatchers = await dbContext.BirdWatchers.find({birdId: birdId}).populate('watcher', 'name picture') 
+				
+				#NOTE This is populated so that it is more useful to the user.
+
+				#NOTE Find the birdId on the object where the value is the same as the one that was passed through. You can instead write .find({birdId}) instead because the key and value are the same, so it will read it as above. Either way works, but it is good practice to write your parameter the same as the property on the object.
+
+				return birdWatchers
+			}
+	
+	5. If you want a virtual to return a count of something:
+		BirdSchema.virtual('birdWatcherCount', {
+			localField: '_id', #NOTE this is the ID of the object itself
+			foreignField: 'birdId', #NOTE We want the birdId that matches the regular _id
+			<!-- justOne: false, --> #NOTE: No justOne is necessary, because there will be more than one
+			ref: 'BirdWatchers',
+			count: true #NOTE Just count them, we don't need the information on them.
+		})
+
+		- You can chain populates 
+			const birdWatchers = await dbContext.BirdWatchers.find({birdId: birdId}).populate('watcher', 'name picture').populate('birdWatcherCount')
+
+5. To draw the connected object (frontend):
+	- Add a place to get the data you need in your model
+		this.reporter = data.reporter
+		this.birdWatcherCount = data.birdWatcherCount
+
+	- Add a place to show that in your template (like showing an image or a name). Remember that you can drill into it to help that.
+
+6. To get a list of items on a connected object (frontend):
+	- Make a new controller and service for this object, since it's a new data type
+
+	- In the BirdWatchersController.js:
+		async getBirdWatchersByActiveBird(){
+			try{
+				await birdWatchersService.getBirdWatchersByActiveBird()
+			} catch(error){
+				console.log(error)
+				Pop.error(error.message)
+			}
+		}
+
+	- In the birdWatchersService.js: 
+		async getBirdWatchersByActiveBird(){
+			const bird = AppState.bird
+
+			const res = await api.get(`api/birds/${bird.id}/birdWatchers)
+
+			<!-- console.log("Getting Birdwatchers by Active Bird", res.data) --> DON'T FORGET TO LOG THE RES
+
+			AppState.birdWatchers = res.data
+
+			console.log('Birdwatchers in the AppState:', AppState.birdWatchers)
+		}
+	
+	- Make sure there's a model.
+
+	- Draw it to the page!
+
+7. To add to the list of items:
+
+
+	- In the item's Service:
+
+		async becomeWatcher(){
+			const bird = AppState.bird
+			const res = await api.post('api/birdWatchers', {birdId: bird?.id})
+
+			log the res
+
+			bird?.birdWatcherCount++
+
+			AppState.birdWatchers.push(new Profile(res.data))
+
+			log the AppState
+		}
