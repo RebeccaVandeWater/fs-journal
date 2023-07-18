@@ -443,3 +443,62 @@
     #NOTE You can use an elvis operator to make sure that the thing exists before drilling into it. HTML will load before the function, so it will be a little bit ahead of the get function. We want to make sure that the elvis operator is there to wait until the function is done and then to go get the thing that triggered a listener.
     </h3>
   </div>
+
+#SECTION - Making Search Bars
+1. You can make a search page by making a new page in the router
+  {
+    path:'/search',
+    name: 'Search',
+    component: loadPage('SearchPage')
+  },
+
+2. Make a new page for the search page that matches the component of the router
+  SearchPage.vue
+
+3. Put an <li> in the Home Page's navBar that has a router-link to the Search page (you can alt-tab down the About's li to help guide this one)
+
+4. In the Template, make an input in a form
+  <form @submit.prevent="getMoviesByQuery()"> #NOTE Prevent the default automatically.
+    <label for="searchbar">Search Movies</label>
+    <input v-model="editable.query" type="text" required minlength="2" maxlength="100" id="searchbar"> 
+    #NOTE v-model creates two-way databinding between it and a reactive object; They will both change if one changes.
+    <button class="btn btn-info" type="submit">
+      <i class="mdi mdi-magnify"></i>
+    </button>
+  </form>
+
+5. In the setup and return
+  const editable = ref({"Search a movie name."}) #NOTE You can also leave this empty. Ref can be any type of data.
+
+  return{
+    editable,
+
+    movies: computed(() => AppState.movies)
+
+    async getMoviesByQuery(){
+      try{
+        const queryObj = editable.value
+
+        await moviesService.getMoviesByQuery(queryObj)
+
+        <!-- logger.log(editable.value) --> #NOTE Test it. The .value pulls out the value of the query.
+      } catch(error){
+        Pop.error(error)
+      }
+    }
+  }
+
+6. In the service:
+  async getMoviesByQuery(queryObj){
+    const res = await movieApi.get(`search/movie?query=${query.query}`)
+
+    const movies = res.data.results.map(moviePojo => new Movie(moviePojo)) 
+
+    AppState.movies = movies
+
+    AppState.page = res.data.page
+
+    AppState.totalPages = res.data.total_pages
+  }
+
+7. Make sure that they have a place to draw on the Search page. And, make sure you bring them in on the return (above)
