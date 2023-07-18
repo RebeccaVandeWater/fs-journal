@@ -17,7 +17,7 @@
   > script - This is the Javascript tag section.
   > style - This is the CSS tag section.
 
-05. What are ***lifecycle hooks***? What are lifecycle hooks used for? #REVIEW - Add notes from lecture as applicable.
+05. What are ***lifecycle hooks***? What are lifecycle hooks used for? 
 
   > Lifecycle hooks are the commands used in the lifecycle of a component before, during, and after page load. The different kinds of hooks are creation, mounting, updating, and destruction hooks. All of these will effect your component throughout its use on a page.
 
