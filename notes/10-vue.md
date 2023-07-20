@@ -502,3 +502,12 @@
   }
 
 7. Make sure that they have a place to draw on the Search page. And, make sure you bring them in on the return (above)
+
+#SECTION - Deleting an object
+1. In the setup, if you're using a prop, you can pass the prop's name into the setup.
+
+2. In the remove function, you can pass the prop into the function by drilling into it. 
+  EXAMPLE: 
+  const carId = props.carProp.id #NOTE - Props has been passed into the setup, carProp is the prop object that was made, and the id is a property that lives on the carProp.
+
+#SECTION - 

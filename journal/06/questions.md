@@ -1,11 +1,11 @@
 # Single Page Applications with Vue
-01. What is the entrypoint of an application? #REVIEW - Is this correct?
+01. What is the entrypoint of an application?
 
   > The entrypoint is the URL provided in the page and in an API. For example, '/' in a plain Vue folder would open up just the Home page. Or, '/about' would open up the About page.
 
 02. What is the difference between a vue `component` and `page`?
 
-  > A component contains HTML, Javascript, and CSS that would apply to just one component of an application. A page contains only HTML so that 
+  > A component contains HTML, Javascript, and CSS that would apply to just one component of an application. A page contains the same thing, but hosts components that users can interact with.
 
 03. What is ***Component-Based Architecture***?
 
@@ -39,4 +39,4 @@
 
 10. What is the Vue method used to create watchable objects such as `state` or `AppState`?
 
-  > reactive() creates listeners and emitters to watchable objects. This takes out the need to add these ourselves with AppState.on() or AppState.emit().
+  > computed() creates listeners and emitters to watchable objects. This takes out the need to add these ourselves with AppState.on() or AppState.emit(). Watcheffect has the same purpose, but can also work as a function to set values.
