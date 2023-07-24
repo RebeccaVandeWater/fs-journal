@@ -510,4 +510,16 @@
   EXAMPLE: 
   const carId = props.carProp.id #NOTE - Props has been passed into the setup, carProp is the prop object that was made, and the id is a property that lives on the carProp.
 
-#SECTION - 
+#SECTION - Building a full stack application with Vue
+
+#STUB - Getting started
+1. bcw create > express-vue
+2. Set up the .env and env.js
+  - Don't forget that the .env is from mongoDB (also slacked to me), and the env.js has data pulled from that.
+3. Spin up both the server and the client
+  - The server is the run/debug, the client is bcw serve.
+4. In Postman, set up two Auth Tokens. One from running bcw serve, and one from opening the webpage from an incognito page.
+  - We will be using a suite of pre-written tests that are provided by Code Works, so these will be required for this.
+  - To add the tests, click on Import, and add the link that is provided.
+  - Save as you go to make sure that your setup is saved and able to be used by Postman
+  - When testing CRUD methods in Postman, test from the top down so that Postman doesn't throw an error. It will create random data that you'll be able to test in your get and delete methods.

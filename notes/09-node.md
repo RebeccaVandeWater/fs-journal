@@ -887,3 +887,5 @@
 
 			log the AppState
 		}
+
+#SECTION - Building a full stack application with Vue
