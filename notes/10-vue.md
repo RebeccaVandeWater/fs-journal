@@ -517,7 +517,7 @@
 2. Set up the .env and env.js
   - Don't forget that the .env is from mongoDB (also slacked to me), and the env.js has data pulled from that.
 3. Spin up both the server and the client
-  - The server is the run/debug, the client is bcw serve.
+  - Both folders will be spun up with the run/debug.
 4. In Postman, set up two Auth Tokens. One from running bcw serve, and one from opening the webpage from an incognito page.
   - We will be using a suite of pre-written tests that are provided by Code Works, so these will be required for this.
   - To add the tests, click on Import, and add the link that is provided.
