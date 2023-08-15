@@ -40,11 +40,17 @@
 
 08. In a SQL table, what is the difference between information in a row and information in a column?
 
-  > | ANSWER HERE |
+  > The information in a row is each individual item that is stored in the database. This can be users, cars, houses, etc. A column contains the properties that the item can have, like email, picture, name, etc.
 
 09. Demonstrate the necessary SQL for creating a table called `characters` with the values `name, age, description` as strings, and an `int` id.
 
-  > | ANSWER HERE |
+  > CREATE TABLE
+      users(
+        id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+        name VARCHAR(255) NOT NULL,
+        age SMALLINT UNSIGNED NOT NULL,
+        description VARCHAR(255) NOT NULL,
+      )
 
 10. In SQL how can you query more than a single table? Provide an example.
 
