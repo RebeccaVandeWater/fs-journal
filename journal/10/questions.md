@@ -6,7 +6,7 @@
 
 02. What is the difference between a `class` and an `interface`?
 
-  > A class has a definition and is instantiated, whereas an interface only has a definition. This allows the interface to be read without it taking up any space in memory.
+  > A class has a definition and is instantiated, whereas an interface only has a definition. This allows the interface to be read without it taking up any space in memory. Additionally, the interface is the container of methods that a class will be guaranteed to use.
 
 03. What is the method that returns an instance of a class, yet it has no return type?
 
@@ -54,4 +54,5 @@
 
 10. In SQL how can you query more than a single table? Provide an example.
 
-  > | ANSWER HERE |
+  > When you query more than one table, you need to select multiple tables and then join them together. This will also only work correctly if you have the columns with these properties on the respective tables:
+  > 

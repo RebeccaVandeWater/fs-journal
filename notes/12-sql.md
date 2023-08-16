@@ -58,6 +58,8 @@
   - AUTO_INCREMENT means that the id's will automatically increment in the database, so that they are always unique and they will not need a complicated id.
   - To write a default value, you can write something like BOOLEAN DEFAULT true.
   - SMALLINT UNSIGNED says how big the integer can be (how many bytes can be stored) and UNSIGNED states that it has to be a positive number
+  - ENUM is the type for enums, and in order to create them you would write them like this:
+    - category ENUM('misc', 'cats', 'dogs', 'gachamon', 'games') DEFAULT 'misc'
 
 #SECTION - Using SQL data in C#
 
@@ -311,3 +313,102 @@
 
         return updatedCar;
       }
+
+#SECTION - Building a Full Stack Application with C# and SQL
+
+#STUB - Getting Started
+  1. When creating your folder, use bcw createe > dotnet vue
+
+  2. Initialize the repository before opening the Workspace
+
+  3. Make sure your database is connected with the correct Connection String and User
+
+  4. Hook up your connection information in the appsettings.Development.json file
+    - The auth0 domain and audience will be the same as the ones used previously in Vue full stack applications.
+
+  5. Fill in the same information in the .env file in the front end
+    - Make sure that the .env file has the correct port (should be 7045 or something similar)
+    - Make sure that the same port also has https instead of http
+
+  6. Spin up the client and the server (localhost:8080 is still the client side URL)
+
+#STUB - One to Many Relationships
+  * In this example, we're going to create a creatorId on an album. This references the id on the accounts table.
+    - creatorId VARCHAR(255) NOT NULL, 
+    > This should be set up the same way that the id is set up on the accounts table, without the primary key
+
+    In the table, space down and then create a Foreign Key:
+    - FOREIGN KEY(creatorId) REFERENCES accounts(id) ON DELETE CASCADE 
+    > This is the foreign key to this table, which is the creatorId that is created in a different table, then it  REFERENCES the accounts table at a specified id. Then, if anyone deletes their account it will CASCADE and delete all of the albums associated with that account so that there isn't any orphan data in the database.
+
+    To put that creatorId on something that is created on the table with and INSERT INTO command:
+    - INSERT INTO albums (title, category, coverImg, creatorId)
+      VALUES ('hot dogs', 'dogs', 'URL', 'ACCOUNTID');
+    > When just testing the method in the dbSetup.sql, you can just grab one of the id's from the accounts table
+
+    When creating the class for the album in the Controller, its prop will look like:
+    - public string CreatorId {get; set;}
+    > This is because in its property in the SQL database, its data type is a VARCHAR
+
+    To pull out the user's information in order to attach it to the new data:
+    - private readonly Auth0Provider _auth0Provider
+      (in the same class constructor, CTRL . to create new parameters and new constructor info)
+
+    In the HttpPost Request, make sure that the method is async and make sure that the Action Result is written like Task<ActionResult<Album>>
+    - Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
+    > The Auth0Provider is a dependency that we need to pass in before we can use its information. Then, it will take some time to get the user info back from the auth0Provider, so we have to await it. 
+    > HttpContext serves the same purpose as req and res in Node, so it basically sends in the request and its body, and the response and its body. It pulls information from the Headers, like the bearer token from Authorization.
+
+    To ensure that only users that are authorized can use specific methods, add a decorator to the method:
+    [Authorize]
+    [HttpPost]
+    > This Authorize will apply to the very next Http Request, and works essentially the same as the .use in Node. It throws a Forbidden error if a user attempts to use the method without being logged in.
+
+    Before sending the info down to the Service, you can use dot notation to attach this new userInfo to the albumData:
+    - albumData.CreatorId = userInfo.Id
+    > This is equivalent to req.body.creatorId = req.userInfo.id in Node
+
+    When creating the new data in the Repository level:
+    - string sql = @"
+      INSERT INTO (title, category, coverImg, creatorId)
+      VALUES(@Title, @Category, @CoverImg, @CreatorId);
+      SELECT LAST_INSERT_ID;
+      ;";
+
+      int albumId = _db.ExecuteScalar<int>(sql, albumData);
+
+      DON'T FORGET THE RETURN
+
+  * Next, we're going to add the creator information from the CreatorId in the table as a populate.
+
+    We need to select and bring in two tables at once:
+    - SELECT 
+      alb.*,
+      acc.* ,
+      FROM albums alb
+      JOIN accounts acc
+      ON accounts.id = albums.creatorId;
+    > Here we're getting all of the albums and all of the accounts and merging them together. To prevent all users from having all albums created on their account, we need to add the ON in order to add the condition where the account id is the same as the creatorId on an album. 
+    > Additionally, we alias out the one album and creator with alb and acc, and then select them in the order that you want them to appear back from the database. You might want to see the account information first, or the album information first.
+    > All of this together is essentially creating a virtual like in Node.
+
+#STUB - Populating information from another table
+  * To populate the information that you want in C#:
+
+    First, create a profile class in the Account model. It should only contain the information that you want users to be able to access.
+
+    Next, create a nested Profile class on your class in the Controller, for the thing you want to be populated:
+    - public Profile Creator {get; set;}
+    > Make sure that the table has this column on it as well.
+
+    Then, create that item in the method that you want to have it populated on in the Repository. In this case, it's the Get method.
+    - List<Album> albums = _db.Query<Album, Profile, Album>(
+      sql,
+      (album, profile) => {
+        album.Creator = profile;
+        return album;
+      }
+      ).ToList();
+    > Here, in the Query we are getting back two types of data from the table. An Album and a Profile. We pass those in, and then the second Album is the one being expected as the return from the method.
+    > (album, profile) are the differentiated pieces of data from those tables, the =>{} is the map function that puts the profile parameter onto the album.Creator property. Then the map function expects to return something back. The return album does that. The album and profile match the ones from the Query parameters. 
+    > **NOTE PAY ATTENTION TO THE WAY YOUR WRITE YOUR SQL SELECTS. They need to match the same order that they are passed into your Query.**
