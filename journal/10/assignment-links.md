@@ -2,4 +2,4 @@
 
 * **[Repo] https://github.com/RebeccaVandeWater/ChoreManagerVande** Monday Challenge 8/14/23
 * **[Repo] https://github.com/RebeccaVandeWater/GregslistVande** Tuesday Challenge 8/15/23
-* **[Repo](https://github.com/RebeccaVandeWater/<ASSIGNMENT_REPO>)**
+* **[Repo] https://github.com/RebeccaVandeWater/AllSpiceVande** AllSpice Checkpoint

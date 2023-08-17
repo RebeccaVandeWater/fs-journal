@@ -412,3 +412,33 @@
     > Here, in the Query we are getting back two types of data from the table. An Album and a Profile. We pass those in, and then the second Album is the one being expected as the return from the method.
     > (album, profile) are the differentiated pieces of data from those tables, the =>{} is the map function that puts the profile parameter onto the album.Creator property. Then the map function expects to return something back. The return album does that. The album and profile match the ones from the Query parameters. 
     > **NOTE PAY ATTENTION TO THE WAY YOUR WRITE YOUR SQL SELECTS. They need to match the same order that they are passed into your Query.**
+
+#SECTION - Many to Many Relationships with C# and SQL
+
+#STUB - Creating the table:
+  1. After creating the typical properties on the table, you will add:
+    FOREIGN KEY (albumId) REFERENCES albums(id) ON DELETE CASCADE;
+    FOREIGN KEY (accountId) REFERENCES accounts(id) ON DELETE CASCADE;
+
+#STUB - Creating the Model:
+  1. Your model might need to inherit all of the members of a different class. In order to use inheritance for this, write your class like this:
+    public class ProfileCollaboration : Profile
+    {
+      public int CollaborationId {get; set;}
+    }
+  > The : Profile brings in all of the members of the class Profile and puts them into the ProfileCollaboration class. The only thing that you need is the differing member, which in this case is the CollaborationId from the Collaborator class. This merges the two classes together more easily.
+
+#STUB - Writing the SQL statement:
+  1. The above class will be missing essential information, like the name and picture from the account. In order to grab these properties, write the SQL statement like this:
+    SELECT 
+    collab.*,
+    acc.*
+    FROM collaborators collab
+    JOIN account acc ON collab.accountId = acc.id
+    WHERE collab.albumId = @albumId
+
+  > This merges together the two tables so that we can grab the properties off of them that we care about.
+
+
+
+#STUB - 

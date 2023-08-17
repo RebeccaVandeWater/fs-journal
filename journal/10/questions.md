@@ -54,5 +54,10 @@
 
 10. In SQL how can you query more than a single table? Provide an example.
 
-  > When you query more than one table, you need to select multiple tables and then join them together. This will also only work correctly if you have the columns with these properties on the respective tables:
-  > 
+  > When you query more than one table, you need to select multiple tables and then join them together. This is an example from lecture:
+  > SELECT 
+    collab.*,
+    acc.*
+    FROM collaborators collab
+    JOIN account acc ON collab.accountId = acc.id
+    WHERE collab.albumId = @albumId
