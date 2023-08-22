@@ -60,6 +60,7 @@
   - SMALLINT UNSIGNED says how big the integer can be (how many bytes can be stored) and UNSIGNED states that it has to be a positive number
   - ENUM is the type for enums, and in order to create them you would write them like this:
     - category ENUM('misc', 'cats', 'dogs', 'gachamon', 'games') DEFAULT 'misc'
+  - TEXT is another type of VARCHAR, but has a massive character count.
 
 #SECTION - Using SQL data in C#
 
@@ -438,7 +439,14 @@
     WHERE collab.albumId = @albumId
 
   > This merges together the two tables so that we can grab the properties off of them that we care about.
+  > The .* is the same as dot notation, the star grabs all properties off of the item. However, we can use dot notation to grab individual properties instead.
 
 
 
-#STUB - 
+#SECTION - Facts that will help with the Final
+
+#STUB - Making a virtual count:
+
+
+#STUB - Making a Repo model:
+
