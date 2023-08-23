@@ -5,11 +5,11 @@
 
 2. How does ***member inheritance*** work in C#? Does a `Class` inherit all members of the base `Class`?
 
-  > | ANSWER HERE |
+  > The derived class will inherit all members of the base class, except for its constructor. However, you can also add new members to the derived class that don't exist on the base class. This would be like an Account having an Email, but it inheriting the Id, Picture, and Name from the Profile.
 
 3. How does ***accessibility*** affect inheritance?
 
-  > | ANSWER HERE |
+  > If a member is marked as private, it will not be inherited by the derived class. However, public members will be.
 
 4. What is the difference between a `PRIMARY KEY` and a `FOREIGN KEY`
 
@@ -17,7 +17,7 @@
 
 5. What is an ***alias***?
 
-  > | ANSWER HERE |
+  > An alias is another name that you assign a namespace. It allows for easier importing and changing of the namespace.
 
 6. Demonstrate how you would query a join statement that would get all of a doctors patients from the following collections:
 

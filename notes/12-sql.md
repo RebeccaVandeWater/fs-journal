@@ -446,7 +446,43 @@
 #SECTION - Facts that will help with the Final
 
 #STUB - Making a virtual count:
+  - In the sql string in the repository:
+    SELECT
+    c.*,
+    COUNT(cm.id) AS cultistCount,
+    acc.*
+    FROM cults c
+    LEFT JOIN cultMembers cm ON cm.cultId = c.id
+    JOIN account acc ON acc.if = c.leaderId
+    GROUP BY c.id;
+  > This creates the virtual count. It counts all of the id's from the cultMembers table, where the cultMember's cultId equals the cultId. The GROUP BY _should_ be making null's on the tables into 0's where there isn't a count on the specified table.
+  > The LEFT JOIN will join two tables where their properties match, or where they don't it will return the count as 0 instead of ignoring the table or creating a null/creating new data so it isn't null.
 
 
-#STUB - Making a Repo model:
+#STUB - Making a Repo item:
+  - In the class model:
+    public abstract class RepoItem<T>
+    {
+      public T Id { get; set; }
+      public DateTime CreatedAt { get; set; }
+      public DateTime UpdatedAt { get; set; }
+    }
 
+  - In the inherited class model:
+    public class CultMember : RepoItem<int> => Here the int represents the id, which will either be an int or string that the T is the placeholder for.
+
+  > The <T> is a placeholder for whatever type will be used. In some cases, it might be a string, int, or other class model.
+  > This is a class that extends members on a class that will exist on almost every class. This is like Id, CreatedAt, and UpdatedAt.
+  > An abstract class is one that will never be instantiated, it only exists to support other classes.
+
+#STUB - To ensure that only one can be made:
+  - In the table, add UNIQUE(cultId, accountId)
+  > This adds the constraint that the relationship between these two members can only be created once. Your account ID can only exist with this cult ID one time.
+
+#STUB - Editing a user's account:
+  - In this case, the service and repository are complete. You only need to finish the controller side. Most of it will look the same as any update, except that you will send down the user email instead of their ID.
+    Account account = _accountService.Edit(accountData, userInfo.Email);
+
+#STUB - Searching queries:
+
+#STUB -  
