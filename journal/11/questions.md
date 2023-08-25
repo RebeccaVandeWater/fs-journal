@@ -47,4 +47,7 @@
 
   ```
 
-  > 
+  > SELECT 
+    *
+    FROM doctors
+    JOIN patients ON doctors.id = patients_doctors.id
