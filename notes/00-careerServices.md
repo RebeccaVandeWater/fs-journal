@@ -24,6 +24,15 @@
 - Education
   - ✅ Add GPA from graduation from BSU and CWI, any quantifiable data like hours working on a project
 
+#SECTION - Finding your fit
+- 5 Questions When Interviewing Companies
+  - Where are you in the Job Description?
+  - What is the Company Communication Style?
+  - How is the interview managed?
+  - Did they test your skills?
+  - Do you have any questions?
+  - Do you want to work here? Why?
+
 
 #SECTION - Career Week
 
@@ -95,3 +104,21 @@
   - pm2 is a node module that will spin up your service and keep it running. Nodemon will do the same thing, but doesn't have as many services as pm2
     - install with:
       npm install -g pm2
+
+#STUB - Wednesday Lecture
+- NGINX is a proxy server that maps over your traffic > Takes the information and relays it to the custom server that needs the information. It doesn't allow users to directly talk to the custom server.
+- You can't use the Github actions for anything that requires a server. You can keep static pages up there, like your portfolio website. However, you'll have to separate the front end and back end if you want to have a static full stack website up.
+
+
+  #ANCHOR - Setting up GitHub actions
+  - Go to the Github Actions tab in Github
+  - Create a /.github/workflows/deploy.yml path in your repo in Github. This tells Github to run the specified action when you push your repo.
+
+
+  #ANCHOR - Setting up NGINX
+  - Always start with sudo apt update, sudo apt upgrade > Updates are always coming through, you want to make sure your database is up to date.
+  - We have to configure the NGINX file in order to allow it to correctly talk to the user and custom server
+  - Once NGINX is configured, make sure to restart it to ensure that all changes are loaded
+  - Make sure that the location is unique for each project to ensure that they don't all get routed to the same box
+  - Some projects may not work initially, unless you install the dependencies. Make sure to npm i in the client folder (node projects will likely have this error)
+  - 
