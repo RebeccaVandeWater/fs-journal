@@ -71,3 +71,9 @@
 
 - Rainbow: Not used often, usually just in logo. If used overboard will give off a child-like feeling, which can be good or bad. Makes people feel positivity, creativity, and joy
 
+- 60/30/10: 60% dominant color, 30% secondary/supporting color, 10% accent color (text shadow/box shadow)
+
+#SECTION - Tips & Tricks
+
+- email.js > Have people email you with little setup on your end
+
